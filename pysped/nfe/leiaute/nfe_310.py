@@ -224,6 +224,51 @@ class ISSQN(nfe_200.ISSQN):
     xml = property(get_xml, set_xml)
 
 
+
+class ICMSUFDest(XMLNFe):
+    def __init__(self):
+        super(ICMSUFDest, self).__init__()
+        self.vBCUFDest = TagDecimal(nome='vBCUFDest', codigo='AI01', tamanho=[1, 13, 1], decimais=[0, 2, 2], raiz='//det/imposto/ICMSUFDest')
+        self.pFCPUFDest = TagDecimal(nome='pFCPUFDest', codigo='AI02', tamanho=[1,  3, 1], decimais=[2, 4, 2], raiz='//det/imposto/ICMSUFDest')
+        self.pICMSUFDest = TagDecimal(nome='pICMSUFDest', codigo='AI03', tamanho=[1,  3, 1], decimais=[2, 4, 2], raiz='//det/imposto/ICMSUFDest')
+        self.pICMSInter = TagDecimal(nome='pICMSInter', codigo='AI04', tamanho=[1,  3, 1], decimais=[0, 2, 2], raiz='//det/imposto/ICMSUFDest')
+        self.pICMSInterPart = TagDecimal(nome='pICMSInterPart', codigo='AI05', tamanho=[1,  3, 1], decimais=[2, 4, 2], raiz='//det/imposto/ICMSUFDest', valor=40)
+        self.vFCPUFDest = TagDecimal(nome='vFCPUFDest', codigo='AI06', tamanho=[1, 13, 1], decimais=[0, 2, 2], raiz='//det/imposto/ICMSUFDest')
+        self.vICMSUFDest = TagDecimal(nome='vICMSUFDest', codigo='AI07', tamanho=[1, 13, 1], decimais=[0, 2, 2], raiz='//det/imposto/ICMSUFDest')
+        self.vICMSUFRemet = TagDecimal(nome='vICMSUFRemet', codigo='AI08', tamanho=[1, 13, 1], decimais=[0, 2, 2], raiz='//det/imposto/ICMSUFDest')
+
+
+    def get_xml(self):
+        if not (self.vBCUFDest.valor):
+            return ''
+
+        xml = XMLNFe.get_xml(self)
+        xml += '<ICMSUFDest>'
+        xml += self.vBCUFDest.xml
+        xml += self.pFCPUFDest.xml
+        xml += self.pICMSUFDest.xml
+        xml += self.pICMSInter.xml
+        xml += self.pICMSInterPart.xml
+        xml += self.vFCPUFDest.xml
+        xml += self.vICMSUFDest.xml
+        xml += self.vICMSUFRemet.xml
+        xml += '</ICMSUFDest>'
+        return xml
+
+    def set_xml(self, arquivo):
+        if self._le_xml(arquivo):
+            self.vBCUFDest.xml       = arquivo
+            self.pFCPUFDest.xml       = arquivo
+            self.pICMSUFDest.xml       = arquivo
+            self.pICMSInter.xml       = arquivo
+            self.pICMSInterPart.xml       = arquivo
+            self.vFCPUFDest.xml       = arquivo
+            self.vICMSUFDest.xml       = arquivo
+            self.vICMSUFRemet.xml       = arquivo
+
+    xml = property(get_xml, set_xml)
+
+
 class COFINSST(nfe_200.COFINSST):
     def __init__(self):
         super(COFINSST, self).__init__()
@@ -1242,6 +1287,48 @@ class Compra(nfe_200.Compra):
         super(Compra, self).__init__()
 
 
+class Exporta(nfe_200.Exporta):
+    def __init__(self):
+        super(Exporta, self).__init__()
+        self.UFSaidaPais = TagCaracter(nome='UFSaidaPais'  , codigo='ZA02', tamanho=[2,  2], raiz='//NFe/infNFe/exporta', obrigatorio=False)
+        self.xLocExporta = TagCaracter(nome='xLocExporta', codigo='ZA03', tamanho=[1, 60], raiz='//NFe/infNFe/exporta', obrigatorio=False)
+        self.xLocDespacho = TagCaracter(nome='xLocDespacho', codigo='ZA04', tamanho=[1, 60], raiz='//NFe/infNFe/exporta', obrigatorio=False)
+
+    def get_xml(self):
+        if not (self.UFSaidaPais.valor or self.xLocExporta.valor):
+            return ''
+
+        xml = XMLNFe.get_xml(self)
+        xml += '<exporta>'
+        xml += self.UFSaidaPais.xml
+        xml += self.xLocExporta.xml
+        xml += self.xLocDespacho.xml
+
+        xml += '</exporta>'
+        return xml
+
+    def set_xml(self, arquivo):
+        if self._le_xml(arquivo):
+            self.UFSaidaPais.xml   = arquivo
+            self.xLocExporta.xml = arquivo
+            self.xLocDespacho.xml = arquivo
+
+    xml = property(get_xml, set_xml)
+
+    def get_txt(self):
+        if not (self.UFSaidaPais.valor or self.xLocExporta.valor):
+            return ''
+
+        txt = 'ZA|'
+        txt += self.UFSaidaPais.txt + '|'
+        txt += self.xLocExporta.txt + '|'
+        txt += self.xLocDespacho.txt + '|'
+        txt += '\n'
+        return txt
+
+    txt = property(get_txt)
+
+
 class ProcRef(nfe_200.ProcRef):
     def __init__(self):
         super(ProcRef, self).__init__()
@@ -1532,8 +1619,8 @@ class ICMSTot(nfe_200.ICMSTot):
             self.vBC.xml     = arquivo
             self.vICMS.xml   = arquivo
             self.vICMSDeson.xml = arquivo
-            self.vFCPUFDest.xml   = arquivo
-            self.vICMSUFDest.xml  = arquivo
+            self.vFCPUFDest.xml = arquivo
+            self.vICMSUFDest.xml = arquivo
             self.vICMSUFRemet.xml = arquivo
             self.vBCST.xml   = arquivo
             self.vST.xml     = arquivo
