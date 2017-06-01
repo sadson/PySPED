@@ -165,17 +165,17 @@ class ISSQN(nfe_200.ISSQN):
         #
         # Campos novos da versão 3.10
         #
-        self.vDeducao = TagDecimal(nome='vDeducao', codigo='U04', tamanho=[1, 15, 1], decimais=[0, 2, 2], raiz='//det/imposto/ISSQN', obrigatorio=False)
-        self.vOutro = TagDecimal(nome='vOutro', codigo='U04', tamanho=[1, 15, 1], decimais=[0, 2, 2], raiz='//det/imposto/ISSQN', obrigatorio=False)
-        self.vDescIncond = TagDecimal(nome='vDescIncond', codigo='U04', tamanho=[1, 15, 1], decimais=[0, 2, 2], raiz='//det/imposto/ISSQN', obrigatorio=False)
-        self.vDescCond = TagDecimal(nome='vDescCond', codigo='U04', tamanho=[1, 15, 1], decimais=[0, 2, 2], raiz='//det/imposto/ISSQN', obrigatorio=False)
-        self.vISSRet = TagDecimal(nome='vISSRet', codigo='U04', tamanho=[1, 15, 1], decimais=[0, 2, 2], raiz='//det/imposto/ISSQN', obrigatorio=False)
-        self.indISS  = TagCaracter(nome='indISS', codigo='U07', tamanho=[1,  1], raiz='//det/imposto/ISSQN')
-        self.cServico = TagCaracter(nome='cServico', codigo='U06', tamanho=[1, 20], raiz='//det/imposto/ISSQN', obrigatorio=False)
-        self.cMun     = TagInteiro(nome='cMun'   , codigo='U05', tamanho=[7, 7, 7], raiz='//det/imposto/ISSQN', obrigatorio=False)
-        self.cPais    = TagInteiro(nome='cPais'  , codigo='U05', tamanho=[4, 4, 4], raiz='//det/imposto/ISSQN', obrigatorio=False)
-        self.nProcesso = TagCaracter(nome='indISS', codigo='U07', tamanho=[1, 30], raiz='//det/imposto/ISSQN', obrigatorio=False)
-        self.indIncentivo = TagCaracter(nome='indIncentivo', codigo='U07', tamanho=[1, 1], raiz='//det/imposto/ISSQN', valor='2')
+        self.vDeducao = TagDecimal(nome='vDeducao', codigo='U07', tamanho=[1, 15, 1], decimais=[0, 2, 2], raiz='//det/imposto/ISSQN', obrigatorio=False)
+        self.vOutro = TagDecimal(nome='vOutro', codigo='U08', tamanho=[1, 15, 1], decimais=[0, 2, 2], raiz='//det/imposto/ISSQN', obrigatorio=False)
+        self.vDescIncond = TagDecimal(nome='vDescIncond', codigo='U09', tamanho=[1, 15, 1], decimais=[0, 2, 2], raiz='//det/imposto/ISSQN', obrigatorio=False)
+        self.vDescCond = TagDecimal(nome='vDescCond', codigo='U10', tamanho=[1, 15, 1], decimais=[0, 2, 2], raiz='//det/imposto/ISSQN', obrigatorio=False)
+        self.vISSRet = TagDecimal(nome='vISSRet', codigo='U11', tamanho=[1, 15, 1], decimais=[0, 2, 2], raiz='//det/imposto/ISSQN', obrigatorio=False)
+        self.indISS  = TagCaracter(nome='indISS', codigo='U12', tamanho=[1,  2], raiz='//det/imposto/ISSQN')
+        self.cServico = TagCaracter(nome='cServico', codigo='U13', tamanho=[1, 20], raiz='//det/imposto/ISSQN', obrigatorio=False)
+        self.cMun     = TagInteiro(nome='cMun'   , codigo='U14', tamanho=[7, 7, 7], raiz='//det/imposto/ISSQN', obrigatorio=False)
+        self.cPais    = TagInteiro(nome='cPais'  , codigo='U15', tamanho=[4, 4, 4], raiz='//det/imposto/ISSQN', obrigatorio=False)
+        self.nProcesso = TagCaracter(nome='nProcesso', codigo='U16', tamanho=[1, 30], raiz='//det/imposto/ISSQN', obrigatorio=False)
+        self.indIncentivo = TagCaracter(nome='indIncentivo', codigo='U17', tamanho=[1, 1], raiz='//det/imposto/ISSQN', valor='2')
 
     def get_xml(self):
         if not (self.indISS.valor):
@@ -900,19 +900,18 @@ class Imposto(nfe_200.Imposto):
         xml += self.vTotTrib.xml
 
         # Enviar ICMS, IPI e II somente quando não for serviço
-        if not self.ISSQN.cSitTrib.valor:
+        if not self.ISSQN.vAliq.valor:
             xml += self.ICMS.xml
             xml += self.IPI.xml
             xml += self.II.xml
+        else:
+            xml += self.ISSQN.xml
 
         xml += self.PIS.xml
         xml += self.PISST.xml
         xml += self.COFINS.xml
         xml += self.COFINSST.xml
         xml += self.ICMSUFDest.xml
-
-        if self.ISSQN.cSitTrib.valor:
-            xml += self.ISSQN.xml
 
         xml += '</imposto>'
         return xml
