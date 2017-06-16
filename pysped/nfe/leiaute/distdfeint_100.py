@@ -268,7 +268,7 @@ class DocZip(XMLNFe):
         if not self.texto:
             return None
         resposta = None
-        if self.schema.valor == 'resNFe_v1.00.xsd':
+        if self.schema.valor in ('resNFe_v1.00.xsd', 'resNFe_v1.01.xsd'):
             resposta = ResNFe()
             texto = unicodedata.normalize(b'NFKD', self.texto).encode(
         'ascii', 'ignore')
