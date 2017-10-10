@@ -50,7 +50,7 @@ class Occ(XMLNFe):
             return ''
             
         xml = XMLNFe.get_xml(self)
-        xml += u'<occ>'
+        xml += '<occ>'
         xml += self.serie.xml
         xml += self.nOcc.xml
         xml += self.dEmi.xml
@@ -76,7 +76,7 @@ class Rodo(XMLNFe):
 
     def get_xml(self):
         xml = XMLNFe.get_xml(self)
-        xml += u'<rodo>'
+        xml += '<rodo>'
         xml += self.RNTRC.xml
         for o in self.occ:
             xml += o.xml
@@ -100,7 +100,7 @@ class InfTotAP(XMLNFe):
         
     def get_xml(self):
         xml = XMLNFe.get_xml(self)
-        xml += u'<infTotAP>'
+        xml += '<infTotAP>'
         xml += self.qTotProd.xml
         xml += self.uniAP.xml
         xml += '</infTotAP>'
@@ -125,7 +125,7 @@ class Peri(XMLNFe):
         if not (self.nONU.valor or self.qTotEmb.valor or self.infTotAP is not None):
             return ''
         xml = XMLNFe.get_xml(self)
-        xml += u'<peri>'
+        xml += '<peri>'
         xml += self.nONU.xml
         xml += self.qTotEmb.xml
         xml += self.infTotAP.xml
@@ -150,7 +150,7 @@ class Tarifa(XMLNFe):
         
     def get_xml(self):
         xml = XMLNFe.get_xml(self)
-        xml += u'<tarifa>'
+        xml += '<tarifa>'
         xml += self.CL.xml
         xml += self.cTar.xml
         xml += self.vTar.xml
@@ -182,7 +182,7 @@ class NatCarga(XMLNFe):
         
     def get_xml(self):
         xml = XMLNFe.get_xml(self)
-        xml += u'<natCarga>'
+        xml += '<natCarga>'
         xml += self.xDime.xml
         for c in self.cInfManu:
             xml += c.xml
@@ -210,7 +210,7 @@ class Aereo(XMLNFe):
 
     def get_xml(self):
         xml = XMLNFe.get_xml(self)
-        xml += u'<aereo>'
+        xml += '<aereo>'
         xml += self.nMinu.xml
         xml += self.nOCA.xml
         xml += self.dPrevAereo.xml
@@ -244,7 +244,7 @@ class InfNFeAquav(XMLNFe):
         if not (self.chave.valor):
             return ''
         xml = XMLNFe.get_xml(self)
-        xml += u'<infNF>'
+        xml += '<infNF>'
         xml += self.chave.xml            
         xml += self.unidRat.xml            
         xml += '</infNF>'
@@ -269,7 +269,7 @@ class InfNFAquav(XMLNFe):
         if not (self.serie.valor or self.nDoc.valor):
             return ''
         xml = XMLNFe.get_xml(self)
-        xml += u'<infNF>'
+        xml += '<infNF>'
         xml += self.serie.xml            
         xml += self.nDoc.xml            
         xml += self.unidRat.xml            
@@ -295,7 +295,7 @@ class InfDocAquav(XMLNFe):
         if (len(self.infNF)==0 and len(self.infNFe)==0):
             return ''
         xml = XMLNFe.get_xml(self)
-        xml += u'<infDoc>'
+        xml += '<infDoc>'
         for inf in self.infNF:
             xml += inf.xml
         for infe in self.infNFe:
@@ -320,7 +320,7 @@ class Lacre(XMLNFe):
         if not (self.nLacre.valor):
             return ''
         xml = XMLNFe.get_xml(self)
-        xml += u'<lacre>'
+        xml += '<lacre>'
         xml += self.nLacre.xml            
         xml += '</lacre>'
         return xml
@@ -344,7 +344,7 @@ class DetCont(XMLNFe):
         if not (self.nCont.valor):
             return ''
         xml = XMLNFe.get_xml(self)
-        xml += u'<detCont>'
+        xml += '<detCont>'
         xml += self.nCont.xml            
         for l in self.lacre:
             xml += l.xml
@@ -371,7 +371,7 @@ class Balsa(XMLNFe):
         if not (self.xBalsa.valor):
             return ''
         xml = XMLNFe.get_xml(self)
-        xml += u'<balsa>'
+        xml += '<balsa>'
         xml += self.xBalsa.xml            
         xml += '</balsa>'
         return xml
@@ -397,7 +397,7 @@ class Aquav(XMLNFe):
 
     def get_xml(self):
         xml = XMLNFe.get_xml(self)
-        xml += u'<aquav>'
+        xml += '<aquav>'
         xml += self.vPrest.xml
         xml += self.vAFRMM.xml
         xml += self.xNavio.xml
@@ -479,7 +479,7 @@ class FerroEnv(XMLNFe):
         if not (self.CNPJ.valor):
             return ''
         xml = XMLNFe.get_xml(self)
-        xml += u'<ferroEnv>'
+        xml += '<ferroEnv>'
         xml += self.CNPJ.xml            
         xml += self.cInt.xml            
         xml += self.IE.xml            
@@ -512,7 +512,7 @@ class TrafMut(XMLNFe):
         if not (self.respFat.valor or self.ferrEmi.valor):
             return ''
         xml = XMLNFe.get_xml(self)
-        xml += u'<trafMut>'
+        xml += '<trafMut>'
         xml += self.respFat.xml            
         xml += self.ferrEmi.xml            
         xml += self.vFrete.xml            
@@ -543,7 +543,7 @@ class Ferrov(XMLNFe):
 
     def get_xml(self):
         xml = XMLNFe.get_xml(self)
-        xml += u'<ferrov>'
+        xml += '<ferrov>'
         xml += self.tpTraf.xml
         xml += self.trafMut.xml
         xml += self.fluxo.xml
@@ -568,7 +568,7 @@ class Duto(XMLNFe):
 
     def get_xml(self):
         xml = XMLNFe.get_xml(self)
-        xml += u'<duto>'
+        xml += '<duto>'
         xml += self.vTar.xml
         xml += self.dIni.xml
         xml += self.dFim.xml
@@ -592,7 +592,7 @@ class InfSeg(XMLNFe):
 
     def get_xml(self):
         xml = XMLNFe.get_xml(self)
-        xml += u'<infSeg>'
+        xml += '<infSeg>'
         xml += self.xSeg.xml
         xml += self.CNPJ.xml
         xml += '</infSeg>'
@@ -617,7 +617,7 @@ class Seg(XMLNFe):
         if not (self.nApol.valor or self.infSeg is not None):
             return ''
         xml = XMLNFe.get_xml(self)
-        xml += u'<seg>'
+        xml += '<seg>'
         xml += self.infSeg.xml
         xml += self.nApol.xml
         xml += self.nAver.xml
@@ -642,7 +642,7 @@ class Multimodal(XMLNFe):
 
     def get_xml(self):
         xml = XMLNFe.get_xml(self)
-        xml += u'<multimodal>'
+        xml += '<multimodal>'
         xml += self.COTM.xml
         xml += self.indNegociavel.xml
         xml += self.seg.xml

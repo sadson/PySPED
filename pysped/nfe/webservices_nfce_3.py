@@ -39,7 +39,7 @@
 # <http://www.gnu.org/licenses/>
 #
 
-from __future__ import division, print_function, unicode_literals
+
 
 from .webservices_flags import (NFE_AMBIENTE_PRODUCAO,
                                 NFE_AMBIENTE_HOMOLOGACAO,
@@ -56,7 +56,7 @@ from .webservices_flags import (NFE_AMBIENTE_PRODUCAO,
                                 WS_NFE_RECEPCAO_EVENTO,
                                 WS_DFE_DISTRIBUICAO)
 
-import webservices_3
+from . import webservices_3
 
 
 SVRS = {

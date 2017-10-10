@@ -39,7 +39,7 @@
 # <http://www.gnu.org/licenses/>
 #
 
-from __future__ import division, print_function, unicode_literals
+
 
 from pysped.xml_sped import (ABERTURA, NAMESPACE_NFE, Signature,
                              TagCaracter, TagDataHora, TagDecimal,

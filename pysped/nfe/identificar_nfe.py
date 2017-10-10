@@ -39,13 +39,13 @@
 # <http://www.gnu.org/licenses/>
 #
 
-from __future__ import division, print_function, unicode_literals
+
 
 import os
 import re
 from lxml import etree
 
-from leiaute import *
+from .leiaute import *
 from pysped.xml_sped import XMLNFe, tira_abertura
 from pysped.xml_sped.certificado import Certificado
 

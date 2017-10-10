@@ -373,7 +373,7 @@ class InfModal(XMLNFe):
             return ''
 
         xml = XMLNFe.get_xml(self)
-        xml += u'<infModal versaoModal="' + unicode(self.versaoModal.valor) + '">'
+        xml += '<infModal versaoModal="' + str(self.versaoModal.valor) + '">'
         xml += self.modal.xml
         xml += '</infModal>'
         return xml
@@ -2362,7 +2362,7 @@ class InfCTe(XMLNFe):
 
     def get_xml(self):
         xml = XMLNFe.get_xml(self)
-        xml += u'<infCte versao="' + unicode(self.versao.valor) + '" Id="' + self.Id.valor + '">'
+        xml += '<infCte versao="' + str(self.versao.valor) + '" Id="' + self.Id.valor + '">'
         xml += self.ide.xml
         xml += self.compl.xml
         xml += self.emit.xml
@@ -2446,21 +2446,21 @@ class CTe(XMLNFe):
         self.infCte = InfCTe()
         self.Signature = Signature()
 
-        self.caminho_esquema = os.path.join(DIRNAME, u'schema/', ESQUEMA_ATUAL + u'/')
-        self.arquivo_esquema = u'cte_v3.00.xsd'
+        self.caminho_esquema = os.path.join(DIRNAME, 'schema/', ESQUEMA_ATUAL + '/')
+        self.arquivo_esquema = 'cte_v3.00.xsd'
 
     def get_xml(self):
         xml = XMLNFe.get_xml(self)
         xml += ABERTURA
-        xml += u'<CTe xmlns="' + NAMESPACE_CTE + u'">'
+        xml += '<CTe xmlns="' + NAMESPACE_CTE + '">'
         xml += self.infCte.xml
         #
         # Define a URI a ser assinada
         #
-        self.Signature.URI = u'#' + self.infCte.Id.valor
+        self.Signature.URI = '#' + self.infCte.Id.valor
 
         xml += self.Signature.xml
-        xml += u'</CTe>'
+        xml += '</CTe>'
         return xml
 
     def set_xml(self, arquivo):
@@ -2488,13 +2488,13 @@ class CTe(XMLNFe):
         return digito
 
     def gera_nova_chave(self):
-        chave = unicode(self.infCte.ide.cUF.valor).zfill(2)
-        chave += unicode(self.infCte.ide.dhEmi.valor.strftime('%y%m')).zfill(4)
-        chave += unicode(self.infCte.emit.CNPJ.valor).zfill(14)
-        chave += unicode(self.infCte.ide.mod.valor).zfill(2)
-        chave += unicode(self.infCte.ide.serie.valor).zfill(3)
-        chave += unicode(self.infCte.ide.nCT.valor).zfill(9)
-        chave += unicode(self.infCte.ide.tpEmis.valor).zfill(1)
+        chave = str(self.infCte.ide.cUF.valor).zfill(2)
+        chave += str(self.infCte.ide.dhEmi.valor.strftime('%y%m')).zfill(4)
+        chave += str(self.infCte.emit.CNPJ.valor).zfill(14)
+        chave += str(self.infCte.ide.mod.valor).zfill(2)
+        chave += str(self.infCte.ide.serie.valor).zfill(3)
+        chave += str(self.infCte.ide.nCT.valor).zfill(9)
+        chave += str(self.infCte.ide.tpEmis.valor).zfill(1)
 
         #
         # O código numério é um número aleatório
@@ -2508,7 +2508,7 @@ class CTe(XMLNFe):
         for c in chave:
             soma += int(c) ** 3 ** 2
 
-        codigo = unicode(soma)
+        codigo = str(soma)
         if len(codigo) > 8:
             codigo = codigo[-8:]
         else:
@@ -2532,7 +2532,7 @@ class CTe(XMLNFe):
         #
         self.infCte.ide.cDV.valor = digito
 
-        chave += unicode(digito)
+        chave += str(digito)
         self.chave = chave
 
         #
@@ -2542,15 +2542,15 @@ class CTe(XMLNFe):
 
     def monta_chave(self):
         self.gera_nova_chave()
-        chave = unicode(self.infCte.ide.cUF.valor).zfill(2)
-        chave += unicode(self.infCte.ide.dhEmi.valor.strftime('%y%m')).zfill(4)
-        chave += unicode(self.infCte.emit.CNPJ.valor).zfill(14)
-        chave += unicode(self.infCte.ide.mod.valor).zfill(2)
-        chave += unicode(self.infCte.ide.serie.valor).zfill(3)
-        chave += unicode(self.infCte.ide.nCT.valor).zfill(9)
-        chave += unicode(self.infCte.ide.tpEmis.valor).zfill(1)
-        chave += unicode(self.infCte.ide.cCT.valor).zfill(8)
-        chave += unicode(self.infCte.ide.cDV.valor).zfill(1)
+        chave = str(self.infCte.ide.cUF.valor).zfill(2)
+        chave += str(self.infCte.ide.dhEmi.valor.strftime('%y%m')).zfill(4)
+        chave += str(self.infCte.emit.CNPJ.valor).zfill(14)
+        chave += str(self.infCte.ide.mod.valor).zfill(2)
+        chave += str(self.infCte.ide.serie.valor).zfill(3)
+        chave += str(self.infCte.ide.nCT.valor).zfill(9)
+        chave += str(self.infCte.ide.tpEmis.valor).zfill(1)
+        chave += str(self.infCte.ide.cCT.valor).zfill(8)
+        chave += str(self.infCte.ide.cDV.valor).zfill(1)
         self.chave = chave
 
 

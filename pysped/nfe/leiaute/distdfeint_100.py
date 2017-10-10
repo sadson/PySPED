@@ -39,7 +39,7 @@
 # <http://www.gnu.org/licenses/>
 #
 
-from __future__ import division, print_function, unicode_literals
+
 
 from pysped.xml_sped import (ABERTURA, NAMESPACE_NFE, Signature, TagCaracter,
                              TagDataHora, TagDecimal, TagInteiro, XMLNFe,
@@ -50,7 +50,7 @@ from pysped.nfe.leiaute import ProcNFe_310, ProcEvento_100
 import unicodedata
 import os
 import gzip
-from StringIO import StringIO
+from io import StringIO
 
 
 DIRNAME = os.path.dirname(__file__)

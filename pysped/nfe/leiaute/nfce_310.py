@@ -39,7 +39,7 @@
 # <http://www.gnu.org/licenses/>
 #
 
-from __future__ import division, print_function, unicode_literals
+
 
 from pysped.xml_sped import *
 from pysped.nfe.leiaute import ESQUEMA_ATUAL_VERSAO_3 as ESQUEMA_ATUAL
@@ -50,7 +50,7 @@ import os
 import binascii
 import hashlib
 import qrcode
-from StringIO import StringIO
+from io import StringIO
 
 
 DIRNAME = os.path.dirname(__file__)
@@ -127,20 +127,20 @@ class NFCe(nfe_310.NFe):
     xml = property(get_xml, set_xml)
 
     def monta_chave(self):
-        chave = unicode(self.infNFe.ide.cUF.valor).strip().rjust(2, '0')
-        chave += unicode(self.infNFe.ide.dhEmi.valor.strftime('%y%m')).strip().rjust(4, '0')
-        chave += unicode(self.infNFe.emit.CNPJ.valor).strip().rjust(14, '0')
+        chave = str(self.infNFe.ide.cUF.valor).strip().rjust(2, '0')
+        chave += str(self.infNFe.ide.dhEmi.valor.strftime('%y%m')).strip().rjust(4, '0')
+        chave += str(self.infNFe.emit.CNPJ.valor).strip().rjust(14, '0')
         chave += '65'
-        chave += unicode(self.infNFe.ide.serie.valor).strip().rjust(3, '0')
-        chave += unicode(self.infNFe.ide.nNF.valor).strip().rjust(9, '0')
+        chave += str(self.infNFe.ide.serie.valor).strip().rjust(3, '0')
+        chave += str(self.infNFe.ide.nNF.valor).strip().rjust(9, '0')
 
         #
         # Inclui agora o tipo da emissão
         #
-        chave += unicode(self.infNFe.ide.tpEmis.valor).strip().rjust(1, '0')
+        chave += str(self.infNFe.ide.tpEmis.valor).strip().rjust(1, '0')
 
-        chave += unicode(self.infNFe.ide.cNF.valor).strip().rjust(8, '0')
-        chave += unicode(self.infNFe.ide.cDV.valor).strip().rjust(1, '0')
+        chave += str(self.infNFe.ide.cNF.valor).strip().rjust(8, '0')
+        chave += str(self.infNFe.ide.cDV.valor).strip().rjust(1, '0')
         self.chave = chave
 
     def monta_qrcode(self):
@@ -205,13 +205,13 @@ class NFCe(nfe_310.NFe):
 
     @property
     def numero_formatado(self):
-        num = unicode(self.infNFe.ide.nNF.valor).zfill(9)
+        num = str(self.infNFe.ide.nNF.valor).zfill(9)
         num_formatado = '.'.join((num[0:3], num[3:6], num[6:9]))
         return 'nº ' + num_formatado
 
     @property
     def serie_formatada(self):
-        return 'Série ' + unicode(self.infNFe.ide.serie.valor).zfill(3)
+        return 'Série ' + str(self.infNFe.ide.serie.valor).zfill(3)
 
     @property
     def url_consulta(self):
@@ -220,9 +220,9 @@ class NFCe(nfe_310.NFe):
     @property
     def cnpj_destinatario_formatado(self):
         if self.infNFe.dest.CPF.valor and len(self.infNFe.dest.CPF.valor):
-            return 'CNPJ ' + self._formata_cpf(unicode(self.infNFe.dest.CPF.valor))
+            return 'CNPJ ' + self._formata_cpf(str(self.infNFe.dest.CPF.valor))
         elif self.infNFe.dest.CNPJ.valor and len(self.infNFe.dest.CNPJ.valor):
-            return 'CPF ' + self._formata_cnpj(unicode(self.infNFe.dest.CNPJ.valor))
+            return 'CPF ' + self._formata_cnpj(str(self.infNFe.dest.CNPJ.valor))
         elif self.infNFe.dest.idEstrangeiro.valor and len(self.infNFe.dest.idEstrangeiro.valor):
             return 'Id. estrangeiro ' + self.infNFe.dest.idEstrangeiro.valor
         else:

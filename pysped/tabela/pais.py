@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import division, print_function, unicode_literals, absolute_import
+
 import sys
 import os
 import unicodedata
@@ -24,7 +24,7 @@ class _Pais(object):
         self.iso_3166_numerico = iso_3166_numerico
 
     def __str__(self):
-        return unicode.encode(self.__unicode__(), 'utf-8')
+        return str.encode(self.__unicode__(), 'utf-8')
 
     def __unicode__(self):
         return self.nome + ' - BACEN: ' + self.codigo_bacen
@@ -61,7 +61,7 @@ def maiuscula_sem_acento(texto):
 def _monta_dicionario_nome():
     dicionario = {}
 
-    for k, v in PAIS_BACEN.items():
+    for k, v in list(PAIS_BACEN.items()):
         dicionario[maiuscula_sem_acento(v.nome)] = v
 
     return dicionario

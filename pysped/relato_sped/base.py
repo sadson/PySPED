@@ -39,7 +39,7 @@
 # <http://www.gnu.org/licenses/>
 #
 
-from __future__ import division, print_function, unicode_literals
+
 
 from reportlab.lib.units import cm
 from reportlab.lib.pagesizes import A4, landscape
@@ -69,11 +69,11 @@ LARGURA_PAISAGEM = PAISAGEM[0] - MARGEM_ESQUERDA - MARGEM_DIREITA
 # Fontes adicionais
 #
 FONTES_ADICIONAIS = {
-    u'Gentium Book Basic': (
-        (u'Gentium Book Basic'            , DIRNAME + u'/fonts/genbkbasr.ttf' , False, False),
-        (u'Gentium Book Basic Bold'       , DIRNAME + u'/fonts/genbkbasb.ttf' , True , False),
-        (u'Gentium Book Basic Italic'     , DIRNAME + u'/fonts/genbkbasi.ttf' , False, True),
-        (u'Gentium Book Basic Bold Italic', DIRNAME + u'/fonts/genbkbasbi.ttf', True , True),
+    'Gentium Book Basic': (
+        ('Gentium Book Basic'            , DIRNAME + '/fonts/genbkbasr.ttf' , False, False),
+        ('Gentium Book Basic Bold'       , DIRNAME + '/fonts/genbkbasb.ttf' , True , False),
+        ('Gentium Book Basic Italic'     , DIRNAME + '/fonts/genbkbasi.ttf' , False, True),
+        ('Gentium Book Basic Bold Italic', DIRNAME + '/fonts/genbkbasbi.ttf', True , True),
     )
 }
 

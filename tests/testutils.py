@@ -39,9 +39,7 @@ class ClassInittableMetaType(type):
         self.__class_init__(namespace)
 
 
-class SourceTest(object):
-    __metaclass__ = ClassInittableMetaType
-
+class SourceTest(object, metaclass=ClassInittableMetaType):
     @classmethod
     def __class_init__(cls, namespace):
         root = os.path.dirname(os.path.dirname(pysped.__file__))

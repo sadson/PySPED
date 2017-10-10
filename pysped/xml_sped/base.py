@@ -39,7 +39,7 @@
 # <http://www.gnu.org/licenses/>
 #
 
-from __future__ import division, print_function, unicode_literals
+
 
 from lxml import etree
 from datetime import datetime, date, time
@@ -70,23 +70,23 @@ class NohXML(object):
         if arquivo is None:
             return False
 
-        if not isinstance(arquivo, basestring):
+        if not isinstance(arquivo, str):
             arquivo = etree.tounicode(arquivo)
             #self._xml = arquivo
             #return True
 
         #elif arquivo is not None:
         if arquivo is not None:
-            if isinstance(arquivo, basestring):
+            if isinstance(arquivo, str):
                 if isinstance(arquivo, str):
-                    arquivo = unicode(arquivo.encode('utf-8'))
+                    arquivo = str(arquivo.encode('utf-8'))
 
                 if '<' in arquivo:
                     self._xml = etree.fromstring(tira_abertura(arquivo).encode('utf-8'))
                 else:
                     arq = open(arquivo)
                     txt = b''.join(arq.readlines())
-                    txt = unicode(txt.decode('utf-8'))
+                    txt = str(txt.decode('utf-8'))
                     txt = tira_abertura(txt)
                     arq.close()
                     self._xml = etree.fromstring(txt)
@@ -174,25 +174,25 @@ class ErroObrigatorio(Exception):
         return repr(self.value)
 
     def __unicode__(self):
-        return unicode(self.value)
+        return str(self.value)
 
 
 class TamanhoInvalido(Exception):
     def __init__(self, codigo, nome, valor, tam_min=None, tam_max=None, dec_min=None, dec_max=None):
         if tam_min:
-           self.value = 'O campo código ' + codigo + ', "' + nome + '", deve ter o tamanho mínimo de ' + unicode(tam_min) + ', mas o tamanho enviado foi ' + unicode(len(unicode(valor))) + ': ' + unicode(valor)
+           self.value = 'O campo código ' + codigo + ', "' + nome + '", deve ter o tamanho mínimo de ' + str(tam_min) + ', mas o tamanho enviado foi ' + str(len(str(valor))) + ': ' + str(valor)
         elif tam_max:
-           self.value = 'O campo código ' + codigo + ', "' + nome + '", deve ter o tamanho máximo de ' + unicode(tam_max) + ', mas o tamanho enviado foi ' + unicode(len(unicode(valor))) + ': ' + unicode(valor)
+           self.value = 'O campo código ' + codigo + ', "' + nome + '", deve ter o tamanho máximo de ' + str(tam_max) + ', mas o tamanho enviado foi ' + str(len(str(valor))) + ': ' + str(valor)
         elif dec_min:
-           self.value = 'O campo código ' + codigo + ', "' + nome + '", deve ter o mínimo de ' + unicode(dec_min) + ' casas decimais, mas o enviado foi ' + unicode(len(unicode(valor))) + ': ' + unicode(valor)
+           self.value = 'O campo código ' + codigo + ', "' + nome + '", deve ter o mínimo de ' + str(dec_min) + ' casas decimais, mas o enviado foi ' + str(len(str(valor))) + ': ' + str(valor)
         elif dec_max:
-           self.value = 'O campo código ' + codigo + ', "' + nome + '", deve ter o máximo de ' + unicode(dec_max) + ' casas decimais, mas o enviado foi ' + unicode(len(unicode(valor))) + ': ' + unicode(valor)
+           self.value = 'O campo código ' + codigo + ', "' + nome + '", deve ter o máximo de ' + str(dec_max) + ' casas decimais, mas o enviado foi ' + str(len(str(valor))) + ': ' + str(valor)
 
     def __str__(self):
         return repr(self.value)
 
     def __unicode__(self):
-        return unicode(self.value)
+        return str(self.value)
 
 
 class ErroCaracterInvalido(Exception):
@@ -206,7 +206,7 @@ class ErroCaracterInvalido(Exception):
         return repr(self.value)
 
     def __unicode__(self):
-        return unicode(self.value)
+        return str(self.value)
 
 
 class TagCaracter(NohXML):
@@ -226,10 +226,10 @@ class TagCaracter(NohXML):
 
         # Codigo para dinamizar a criacao de instancias de entidade,
         # aplicando os valores dos atributos na instanciacao
-        for k, v in kwargs.items():
+        for k, v in list(kwargs.items()):
             setattr(self, k, v)
 
-        if kwargs.has_key('valor'):
+        if 'valor' in kwargs:
             self.valor = kwargs['valor']
 
     def _testa_obrigatorio(self, valor):
@@ -238,12 +238,12 @@ class TagCaracter(NohXML):
             #raise ErroObrigatorio(self.codigo, self.nome, self.propriedade)
 
     def _testa_tamanho_minimo(self, valor):
-        if self.tamanho[0] and (len(unicode(valor)) < self.tamanho[0]):
+        if self.tamanho[0] and (len(str(valor)) < self.tamanho[0]):
             return TamanhoInvalido(self.codigo, self.nome, valor, tam_min=self.tamanho[0])
             #raise TamanhoInvalido(self.codigo, self.nome, valor, tam_min=self.tamanho[0])
 
     def _testa_tamanho_maximo(self, valor):
-        if self.tamanho[1] and (len(unicode(valor)) > self.tamanho[1]):
+        if self.tamanho[1] and (len(str(valor)) > self.tamanho[1]):
             return TamanhoInvalido(self.codigo, self.nome, valor, tam_max=self.tamanho[1])
             #raise TamanhoInvalido(self.codigo, self.nome, valor, tam_max=self.tamanho[1])
 
@@ -268,7 +268,7 @@ class TagCaracter(NohXML):
 
     def set_valor(self, novo_valor):
         if novo_valor is not None:
-            novo_valor = unicode(novo_valor)
+            novo_valor = str(novo_valor)
             #
             # Remover caratceres inválidos
             #
@@ -283,14 +283,14 @@ class TagCaracter(NohXML):
 
         if self._valida(novo_valor):
             if self.cdata:
-                self._valor_string = unicode(novo_valor)
+                self._valor_string = str(novo_valor)
             else:
-                self._valor_string = unicode(tirar_acentos(novo_valor))
+                self._valor_string = str(tirar_acentos(novo_valor))
         else:
             self._valor_string = ''
 
     def get_valor(self):
-        return unicode(por_acentos(self._valor_string))
+        return str(por_acentos(self._valor_string))
 
     valor = property(get_valor, set_valor)
 
@@ -353,10 +353,10 @@ class TagBoolean(TagCaracter):
         self._valor_boolean = None
         # Codigo para dinamizar a criacao de instancias de entidade,
         # aplicando os valores dos atributos na instanciacao
-        for k, v in kwargs.items():
+        for k, v in list(kwargs.items()):
             setattr(self, k, v)
 
-        if kwargs.has_key('valor'):
+        if 'valor' in kwargs:
             self.valor = kwargs['valor']
 
 
@@ -374,7 +374,7 @@ class TagBoolean(TagCaracter):
         return self.alertas == []
 
     def set_valor(self, novo_valor):
-        if isinstance(novo_valor, basestring):
+        if isinstance(novo_valor, str):
             if novo_valor.lower() == 'true':
                 novo_valor = True
             elif novo_valor.lower() == 'false':
@@ -425,10 +425,10 @@ class TagData(TagCaracter):
         self._valor_data = None
         # Codigo para dinamizar a criacao de instancias de entidade,
         # aplicando os valores dos atributos na instanciacao
-        for k, v in kwargs.items():
+        for k, v in list(kwargs.items()):
             setattr(self, k, v)
 
-        if kwargs.has_key('valor'):
+        if 'valor' in kwargs:
             self.valor = kwargs['valor']
 
     def _valida(self, valor):
@@ -440,13 +440,13 @@ class TagData(TagCaracter):
         return self.alertas == []
 
     def set_valor(self, novo_valor):
-        if isinstance(novo_valor, basestring):
+        if isinstance(novo_valor, str):
             if novo_valor:
                 novo_valor = datetime.strptime(novo_valor[:10], '%Y-%m-%d')
             else:
                 novo_valor = None
 
-        if isinstance(novo_valor, (datetime, date,)) and self._valida(novo_valor):
+        if isinstance(novo_valor, (datetime, date)) and self._valida(novo_valor):
             self._valor_data = novo_valor
             # Cuidado!!!
             # Aqui não dá pra usar a função strftime pois em alguns
@@ -471,13 +471,13 @@ class TagData(TagCaracter):
 
 class TagHora(TagData):
     def set_valor(self, novo_valor):
-        if isinstance(novo_valor, basestring):
+        if isinstance(novo_valor, str):
             if novo_valor:
                 novo_valor = datetime.strptime(novo_valor[:8], '%H:%M:%S')
             else:
                 novo_valor = None
 
-        if isinstance(novo_valor, (datetime, time,)) and self._valida(novo_valor):
+        if isinstance(novo_valor, (datetime, time)) and self._valida(novo_valor):
             self._valor_data = novo_valor
             # Cuidado!!!
             # Aqui não dá pra usar a função strftime pois em alguns
@@ -503,7 +503,7 @@ class TagHora(TagData):
 
 class TagDataHora(TagData):
     def set_valor(self, novo_valor):
-        if isinstance(novo_valor, basestring):
+        if isinstance(novo_valor, str):
             if novo_valor:
                 #
                 # Força a ignorar os microssegundos enviados pelo webservice
@@ -567,7 +567,7 @@ class TagDataHoraUTC(TagData):
         self.fuso_horario = 'America/Sao_Paulo'
 
     def set_valor(self, novo_valor):
-        if isinstance(novo_valor, basestring):
+        if isinstance(novo_valor, str):
             if self._validacao.match(novo_valor):
                 if self._valida_fuso.match(novo_valor):
                     #
@@ -672,22 +672,22 @@ class TagInteiro(TagCaracter):
 
         # Codigo para dinamizar a criacao de instancias de entidade,
         # aplicando os valores dos atributos na instanciacao
-        for k, v in kwargs.items():
+        for k, v in list(kwargs.items()):
             setattr(self, k, v)
 
-        if kwargs.has_key('valor'):
+        if 'valor' in kwargs:
             self.valor = kwargs['valor']
 
     def set_valor(self, novo_valor):
-        if isinstance(novo_valor, basestring):
+        if isinstance(novo_valor, str):
             if novo_valor:
                 novo_valor = int(novo_valor)
             else:
                 novo_valor = 0
 
-        if isinstance(novo_valor, (int, long, Decimal)) and self._valida(novo_valor):
+        if isinstance(novo_valor, (int, Decimal)) and self._valida(novo_valor):
             self._valor_inteiro = novo_valor
-            self._valor_string = unicode(self._valor_inteiro)
+            self._valor_string = str(self._valor_inteiro)
 
             if (len(self.tamanho) >= 3) and self.tamanho[2] and (len(self._valor_string) < self.tamanho[2]):
                 self._valor_string = self._valor_string.rjust(self.tamanho[2], '0')
@@ -722,14 +722,14 @@ class TagDecimal(TagCaracter):
 
         # Codigo para dinamizar a criacao de instancias de entidade,
         # aplicando os valores dos atributos na instanciacao
-        for k, v in kwargs.items():
+        for k, v in list(kwargs.items()):
             setattr(self, k, v)
 
     def _parte_inteira(self, valor=None):
         if valor is None:
             valor = self._valor_decimal
 
-        valor = unicode(valor).strip()
+        valor = str(valor).strip()
 
         if '.' in valor:
             valor = valor.split('.')[0]
@@ -740,7 +740,7 @@ class TagDecimal(TagCaracter):
         if valor is None:
             valor = self._valor_decimal
 
-        valor = unicode(valor).strip()
+        valor = str(valor).strip()
 
         if '.' in valor:
             valor = valor.split('.')[1]
@@ -803,13 +803,13 @@ class TagDecimal(TagCaracter):
         return self.alertas == []
 
     def set_valor(self, novo_valor):
-        if isinstance(novo_valor, basestring):
+        if isinstance(novo_valor, str):
             if novo_valor:
                 novo_valor = Decimal(novo_valor)
             else:
                 novo_valor = Decimal('0.0')
 
-        if isinstance(novo_valor, (int, long, Decimal)) and self._valida(novo_valor):
+        if isinstance(novo_valor, (int, Decimal)) and self._valida(novo_valor):
             self._valor_decimal = Decimal(novo_valor)
             self._valor_string = self._formata(self._valor_decimal)
         else:
@@ -829,9 +829,9 @@ class TagDecimal(TagCaracter):
         # Tamanho mínimo das casas decimais
         if (len(self.decimais) >= 3) and self.decimais[2]:
             if len(self._parte_decimal()) <= self.decimais[2]:
-                formato = '%.' + unicode(self.decimais[2]) + 'f'
+                formato = '%.' + str(self.decimais[2]) + 'f'
             else:
-                formato = '%.' + unicode(len(self._parte_decimal())) + 'f'
+                formato = '%.' + str(len(self._parte_decimal())) + 'f'
         else:
             formato = '%.2f'
 
@@ -983,13 +983,13 @@ def _tipo_para_string(valor, tipo, obrigatorio, dec_min):
     # Aqui não dá pra usar a função strftime pois em alguns
     # casos a data retornada é 01/01/0001 00:00:00
     # e a função strftime só aceita data com anos a partir de 1900
-    if (tipo in ('d', 'h', 'dh')) and isinstance(valor, (datetime, date, time,)):
+    if (tipo in ('d', 'h', 'dh')) and isinstance(valor, (datetime, date, time)):
         valor = formata_datahora(valor, tipo)
-    elif (tipo == 'n') and isinstance(valor, (int, long, float, Decimal)):
-        if isinstance(valor, (int, long, float)):
-            valor = Decimal(unicode(valor))
+    elif (tipo == 'n') and isinstance(valor, (int, float, Decimal)):
+        if isinstance(valor, (int, float)):
+            valor = Decimal(str(valor))
 
-        valor = unicode(valor).strip()
+        valor = str(valor).strip()
 
         if '.' in valor:
             decimais = valor.split('.')[1]
@@ -1020,9 +1020,9 @@ def _string_para_tipo(valor, tipo):
     return valor
 
 def formata_datahora(valor, tipo):
-    if (tipo == 'd') and isinstance(valor, (datetime, date,)):
+    if (tipo == 'd') and isinstance(valor, (datetime, date)):
         valor = '%04d-%02d-%02d' % (valor.year, valor.month, valor.day)
-    elif (tipo == 'h') and isinstance(valor, (datetime, time,)):
+    elif (tipo == 'h') and isinstance(valor, (datetime, time)):
         valor = '%02d:%02d:%02d' % (valor.hour, valor.minute, valor.second)
         valor = valor.strftime('%H:%M:%S')
     elif (tipo == 'dh') and isinstance(valor, datetime):

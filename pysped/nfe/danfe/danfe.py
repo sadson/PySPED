@@ -39,7 +39,7 @@
 # <http://www.gnu.org/licenses/>
 #
 
-from StringIO import StringIO
+from io import StringIO
 from geraldo.generators import PDFGenerator
 from pysped.nfe.danfe.danferetrato import DANFERetrato
 from pysped.nfe.leiaute import ProtNFe_310, RetCancNFe_200, ProcCancNFe_200

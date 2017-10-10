@@ -39,7 +39,7 @@
 # <http://www.gnu.org/licenses/>
 #
 
-from __future__ import division, print_function, unicode_literals
+
 
 
 from reportlab.lib.units import cm
@@ -102,7 +102,7 @@ class DAEDERetrato(DANFERetrato):
         pass
 
     class ObsImpressao(SystemField):
-        expression = u'DAEDE gerado em %(now:%d/%m/%Y, %H:%M:%S)s'
+        expression = 'DAEDE gerado em %(now:%d/%m/%Y, %H:%M:%S)s'
 
         def __init__(self):
             self.name = 'obs_impressao'
@@ -125,25 +125,25 @@ class RemetenteRetrato(DANFERemetenteRetrato):
         #
         # Área central - Dados do DANFE
         #
-        lbl, txt = self.inclui_texto(nome='danfe', titulo='', texto=u'DAEDE', top=0*cm, left=8*cm, width=3.4*cm, height=4*cm)
+        lbl, txt = self.inclui_texto(nome='danfe', titulo='', texto='DAEDE', top=0*cm, left=8*cm, width=3.4*cm, height=4*cm)
         txt.style = DESCRITIVO_DANFE
 
-        txt = self.inclui_texto_sem_borda(nome='danfe_ext', texto=u'DOCUMENTO AUXILIAR DOS EVENTOS DA NOTA FISCAL ELETRÔNICA', top=0.6*cm, left=8*cm, width=3.4*cm, height=4*cm)
+        txt = self.inclui_texto_sem_borda(nome='danfe_ext', texto='DOCUMENTO AUXILIAR DOS EVENTOS DA NOTA FISCAL ELETRÔNICA', top=0.6*cm, left=8*cm, width=3.4*cm, height=4*cm)
         txt.style = DESCRITIVO_DANFE_GERAL
 
-        txt = self.inclui_texto_sem_borda(nome='danfe_ext', texto=u'versão', top=2.1*cm, left=8.8*cm, width=1.4*cm, height=0.6*cm)
+        txt = self.inclui_texto_sem_borda(nome='danfe_ext', texto='versão', top=2.1*cm, left=8.8*cm, width=1.4*cm, height=0.6*cm)
         txt.style = DESCRITIVO_DANFE_GERAL
 
-        fld = self.inclui_campo_sem_borda(nome='danfe_entrada_saida', conteudo=u'NFe.infNFe.versao.valor', top=2.1*cm, left=9.8*cm, width=0.8*cm, height=0.6*cm)
+        fld = self.inclui_campo_sem_borda(nome='danfe_entrada_saida', conteudo='NFe.infNFe.versao.valor', top=2.1*cm, left=9.8*cm, width=0.8*cm, height=0.6*cm)
         fld.style = DESCRITIVO_DANFE_GERAL
 
-        fld = self.inclui_campo_sem_borda(nome='danfe_numero', conteudo=u'NFe.numero_formatado', top=2.4*cm, left=8*cm, width=3.4*cm, height=0.5*cm)
+        fld = self.inclui_campo_sem_borda(nome='danfe_numero', conteudo='NFe.numero_formatado', top=2.4*cm, left=8*cm, width=3.4*cm, height=0.5*cm)
         fld.style = DESCRITIVO_NUMERO
 
-        fld = self.inclui_campo_sem_borda(nome='danfe_serie', conteudo=u'NFe.serie_formatada', top=2.85*cm, left=8*cm, width=3.4*cm, height=0.5*cm)
+        fld = self.inclui_campo_sem_borda(nome='danfe_serie', conteudo='NFe.serie_formatada', top=2.85*cm, left=8*cm, width=3.4*cm, height=0.5*cm)
         fld.style = DESCRITIVO_NUMERO
 
-        fld = SystemField(name='fld_danfe_folha', expression=u'FOLHA %(page_number)02d/%(page_count)02d', top=3.3*cm, left=8*cm, width=3.4*cm, height=0.5*cm)
+        fld = SystemField(name='fld_danfe_folha', expression='FOLHA %(page_number)02d/%(page_count)02d', top=3.3*cm, left=8*cm, width=3.4*cm, height=0.5*cm)
         fld.padding_top = 0.1*cm
         fld.style = DESCRITIVO_NUMERO
         self.elements.append(fld)
@@ -152,17 +152,17 @@ class RemetenteRetrato(DANFERemetenteRetrato):
         # No caso dos códigos de barra, altura (height) e largura (width) se referem às barras, não à imagem
         #
         self.elements.append(Line(top=0*cm, bottom=0*cm, left=11.4*cm, right=19.4*cm, stroke_width=0.1))
-        self.elements.append(BarCode(type=u'Code128', attribute_name=u'NFe.chave_para_codigo_barras', top=((1.625-0.8)/2.0)*cm, left=11.3*cm, width=0.025*cm, height=0.8*cm))
+        self.elements.append(BarCode(type='Code128', attribute_name='NFe.chave_para_codigo_barras', top=((1.625-0.8)/2.0)*cm, left=11.3*cm, width=0.025*cm, height=0.8*cm))
 
-        lbl, fld = self.inclui_campo(nome='remetente_chave', titulo=u'CHAVE DE ACESSO', conteudo=u'NFe.chave_formatada', top=1.625*cm, left=11.4*cm, width=8*cm, margem_direita=True)
+        lbl, fld = self.inclui_campo(nome='remetente_chave', titulo='CHAVE DE ACESSO', conteudo='NFe.chave_formatada', top=1.625*cm, left=11.4*cm, width=8*cm, margem_direita=True)
         fld.style = DADO_CHAVE
 
-        lbl, lbl = self.inclui_campo(nome='remetente_var2', titulo=u'PROTOCOLO DE AUTORIZAÇÃO DE USO', conteudo=u'protNFe.protocolo_formatado', top=2.325*cm, left=11.4*cm, width=8*cm, margem_direita=True)
+        lbl, lbl = self.inclui_campo(nome='remetente_var2', titulo='PROTOCOLO DE AUTORIZAÇÃO DE USO', conteudo='protNFe.protocolo_formatado', top=2.325*cm, left=11.4*cm, width=8*cm, margem_direita=True)
         lbl.style = DADO_VARIAVEL
 
-        self.inclui_campo(nome='remetente_ie', titulo=u'INSCRIÇÃO ESTADUAL', conteudo=u'NFe.infNFe.emit.IE.valor', top=4*cm, left=0*cm, width=6.4*cm)
-        self.inclui_campo(nome='remetente_iest', titulo=u'INSCRIÇÃO ESTADUAL DO SUBSTITUTO TRIBUTÁRIO', conteudo=u'NFe.infNFe.emit.IEST.valor', top=4*cm, left=6.4*cm, width=6.6*cm)
-        self.inclui_campo(nome='remetente_cnpj', titulo=u'CNPJ', conteudo=u'NFe.cnpj_emitente_formatado', top=4*cm, left=13*cm, width=6.4*cm, margem_direita=True)
+        self.inclui_campo(nome='remetente_ie', titulo='INSCRIÇÃO ESTADUAL', conteudo='NFe.infNFe.emit.IE.valor', top=4*cm, left=0*cm, width=6.4*cm)
+        self.inclui_campo(nome='remetente_iest', titulo='INSCRIÇÃO ESTADUAL DO SUBSTITUTO TRIBUTÁRIO', conteudo='NFe.infNFe.emit.IEST.valor', top=4*cm, left=6.4*cm, width=6.6*cm)
+        self.inclui_campo(nome='remetente_cnpj', titulo='CNPJ', conteudo='NFe.cnpj_emitente_formatado', top=4*cm, left=13*cm, width=6.4*cm, margem_direita=True)
 
         self.height = 4.7*cm
 
@@ -171,17 +171,17 @@ class DetEventoRetrato(BandaDANFE):
     def __init__(self):
         super(DetEventoRetrato, self).__init__()
         self.elements = []
-        self.inclui_descritivo(nome='remetente', titulo=u'EVENTO', top=0*cm, left=0*cm, width=19.4*cm)
+        self.inclui_descritivo(nome='remetente', titulo='EVENTO', top=0*cm, left=0*cm, width=19.4*cm)
 
-        lbl, fld = self.inclui_campo(nome='seq_evento', titulo=u'SEQUÊNCIA', conteudo=u'evento.infEvento.nSeqEvento.valor', top=0.42*cm, left=0*cm, width=1.2*cm)
-        lbl, fld = self.inclui_campo(nome='cod_evento', titulo=u'CÓD. EVENTO', conteudo=u'evento.infEvento.tpEvento.valor', top=0.42*cm, left=1.2*cm, width=1.3*cm)
-        lbl, fld = self.inclui_campo(nome='nome_evento', titulo=u'EVENTO', conteudo=u'evento.infEvento.detEvento.descEvento.valor', top=0.42*cm, left=2.5*cm, width=8.9*cm)
+        lbl, fld = self.inclui_campo(nome='seq_evento', titulo='SEQUÊNCIA', conteudo='evento.infEvento.nSeqEvento.valor', top=0.42*cm, left=0*cm, width=1.2*cm)
+        lbl, fld = self.inclui_campo(nome='cod_evento', titulo='CÓD. EVENTO', conteudo='evento.infEvento.tpEvento.valor', top=0.42*cm, left=1.2*cm, width=1.3*cm)
+        lbl, fld = self.inclui_campo(nome='nome_evento', titulo='EVENTO', conteudo='evento.infEvento.detEvento.descEvento.valor', top=0.42*cm, left=2.5*cm, width=8.9*cm)
         #fld.style = DADO_CAMPO_NEGRITO
-        lbl, lbl = self.inclui_campo(nome='remetente_var2', titulo=u'PROTOCOLO DE REGISTRO DO EVENTO', conteudo=u'retEvento.protocolo_formatado', top=0.42*cm, left=11.4*cm, width=8*cm, margem_direita=True)
+        lbl, lbl = self.inclui_campo(nome='remetente_var2', titulo='PROTOCOLO DE REGISTRO DO EVENTO', conteudo='retEvento.protocolo_formatado', top=0.42*cm, left=11.4*cm, width=8*cm, margem_direita=True)
         lbl.style = DADO_VARIAVEL
 
-        lbl, fld = self.inclui_campo(nome='motivo', titulo=u'SIT.', conteudo=u'retEvento.infEvento.cStat.valor', top=1.12*cm, left=0*cm, width=1.2*cm)
-        lbl, fld = self.inclui_campo(nome='motivo', titulo=u'MOTIVO', conteudo=u'retEvento.infEvento.xMotivo.valor', top=1.12*cm, left=1.2*cm, width=18.2*cm, margem_direita=True)
+        lbl, fld = self.inclui_campo(nome='motivo', titulo='SIT.', conteudo='retEvento.infEvento.cStat.valor', top=1.12*cm, left=0*cm, width=1.2*cm)
+        lbl, fld = self.inclui_campo(nome='motivo', titulo='MOTIVO', conteudo='retEvento.infEvento.xMotivo.valor', top=1.12*cm, left=1.2*cm, width=18.2*cm, margem_direita=True)
 
         self.height = 1.82*cm
 

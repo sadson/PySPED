@@ -39,7 +39,7 @@
 # <http://www.gnu.org/licenses/>
 #
 
-from __future__ import division, print_function, unicode_literals
+
 
 from reportlab.lib.units import cm
 from reportlab.lib.pagesizes import A4, landscape
@@ -75,11 +75,11 @@ FONTES_ADICIONAIS = {
         #(u'Gentium Book Basic Italic'     , DIRNAME + u'/fonts/genbkbasi.ttf' , False, True),
         #(u'Gentium Book Basic Bold Italic', DIRNAME + u'/fonts/genbkbasbi.ttf', True , True),
     #),
-    u'DejaVu Sans': (
-        (u'DejaVu Sans'            , DIRNAME + u'/fonts/DejaVuSans.ttf'            , False, False),
-        (u'DejaVu Sans Bold'       , DIRNAME + u'/fonts/DejaVuSans-Bold.ttf'       , True , False),
-        (u'DejaVu Sans Italic'     , DIRNAME + u'/fonts/DejaVuSans-Oblique.ttf'    , False, True),
-        (u'DejaVu Sans Bold Italic', DIRNAME + u'/fonts/DejaVuSans-BoldOblique.ttf', True , True),
+    'DejaVu Sans': (
+        ('DejaVu Sans'            , DIRNAME + '/fonts/DejaVuSans.ttf'            , False, False),
+        ('DejaVu Sans Bold'       , DIRNAME + '/fonts/DejaVuSans-Bold.ttf'       , True , False),
+        ('DejaVu Sans Italic'     , DIRNAME + '/fonts/DejaVuSans-Oblique.ttf'    , False, True),
+        ('DejaVu Sans Bold Italic', DIRNAME + '/fonts/DejaVuSans-BoldOblique.ttf', True , True),
     ),
 }
 

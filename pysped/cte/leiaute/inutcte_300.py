@@ -90,13 +90,13 @@ class InutCTe(XMLNFe):
     xml = property(get_xml, set_xml)
 
     def monta_chave(self):
-        chave = unicode(self.infInut.cUF.valor).zfill(2)
+        chave = str(self.infInut.cUF.valor).zfill(2)
         #chave += self.infInut.ano.valor.zfill(2)
         chave += self.infInut.CNPJ.valor.zfill(14)
-        chave += unicode(self.infInut.mod.valor).zfill(2)
-        chave += unicode(self.infInut.serie.valor).zfill(3)
-        chave += unicode(self.infInut.nCTIni.valor).zfill(9)
-        chave += unicode(self.infInut.nCTFin.valor).zfill(9)
+        chave += str(self.infInut.mod.valor).zfill(2)
+        chave += str(self.infInut.serie.valor).zfill(3)
+        chave += str(self.infInut.nCTIni.valor).zfill(9)
+        chave += str(self.infInut.nCTFin.valor).zfill(9)
 
         self.chave = chave
         return chave
@@ -212,7 +212,7 @@ class RetInutCTe(XMLNFe):
         chave += unicode(self.infInut.nNFIni.valor).zfill(9)
         chave += unicode(self.infInut.nNFFin.valor).zfill(9)
         '''
-        chave = unicode(self.infInut.nProt.valor)
+        chave = str(self.infInut.nProt.valor)
         self.chave = chave
         return chave
 

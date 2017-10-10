@@ -10,15 +10,15 @@ class CTeCabecMsg(XMLNFe):
     def __init__(self):
         super(CTeCabecMsg, self).__init__()
         self.webservice = ''
-        self.cUF = TagInteiro(nome=u'cUF', raiz=u'//cteCabecMsg', tamanho=[2, 2])
-        self.versaoDados = TagDecimal(nome=u'versaoDados', raiz=u'//cteCabecMsg', tamanho=[1, 4], valor=u'3.00')
+        self.cUF = TagInteiro(nome='cUF', raiz='//cteCabecMsg', tamanho=[2, 2])
+        self.versaoDados = TagDecimal(nome='versaoDados', raiz='//cteCabecMsg', tamanho=[1, 4], valor='3.00')
 
     def get_xml(self):
         xml = XMLNFe.get_xml(self)
-        xml += u'<cteCabecMsg xmlns="http://www.portalfiscal.inf.br/cte/wsdl/' + self.webservice + u'">'
+        xml += '<cteCabecMsg xmlns="http://www.portalfiscal.inf.br/cte/wsdl/' + self.webservice + '">'
         xml += self.cUF.xml
         xml += self.versaoDados.xml
-        xml += u'</cteCabecMsg>'
+        xml += '</cteCabecMsg>'
         return xml
 
     def set_xml(self, arquivo):
@@ -53,13 +53,13 @@ class CTeDadosMsg(XMLNFe):
 class SOAPEnvio(XMLNFe):
     def __init__(self):
         super(SOAPEnvio, self).__init__()
-        self.webservice = u''
-        self.metodo = u''
+        self.webservice = ''
+        self.metodo = ''
         self.cUF    = None
         self.envio  = None
         self.cteCabecMsg = CTeCabecMsg()
         self.cteDadosMsg = CTeDadosMsg()
-        self._header = {u'content-type': u'application/soap+xml; charset=utf-8'}
+        self._header = {'content-type': 'application/soap+xml; charset=utf-8'}
 
     def get_xml(self):
         self.cteCabecMsg.webservice = self.webservice
@@ -69,18 +69,18 @@ class SOAPEnvio(XMLNFe):
         self.cteDadosMsg.webservice = self.webservice
         self.cteDadosMsg.dados = self.envio
         
-        self._header[u'content-type'] = u'application/soap+xml; charset=utf-8; action="http://www.portalfiscal.inf.br/cte/wsdl/' + self.webservice + u'"'
+        self._header['content-type'] = 'application/soap+xml; charset=utf-8; action="http://www.portalfiscal.inf.br/cte/wsdl/' + self.webservice + '"'
         
         xml = XMLNFe.get_xml(self)
         xml += ABERTURA
-        xml += u'<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope">'
-        xml +=     u'<soap:Header>'
+        xml += '<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope">'
+        xml +=     '<soap:Header>'
         xml +=             self.cteCabecMsg.xml
-        xml +=     u'</soap:Header>'
-        xml +=     u'<soap:Body>'
+        xml +=     '</soap:Header>'
+        xml +=     '<soap:Body>'
         xml +=             self.cteDadosMsg.xml
-        xml +=     u'</soap:Body>'
-        xml += u'</soap:Envelope>'
+        xml +=     '</soap:Body>'
+        xml += '</soap:Envelope>'
         return xml
 
     def set_xml(self):

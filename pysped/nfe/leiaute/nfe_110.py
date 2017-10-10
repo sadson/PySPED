@@ -39,7 +39,7 @@
 # <http://www.gnu.org/licenses/>
 #
 
-from __future__ import division, print_function, unicode_literals
+
 
 from pysped.xml_sped import (ABERTURA, NAMESPACE_NFE, Signature, TagCaracter,
                              TagData, TagDecimal, TagHora, TagInteiro, XMLNFe)
@@ -2143,8 +2143,8 @@ class Det(XMLNFe):
         return formatado
 
     def cst_formatado(self):
-        formatado = unicode(self.imposto.ICMS.orig.valor).zfill(1)
-        formatado += unicode(self.imposto.ICMS.CST.valor).zfill(2)
+        formatado = str(self.imposto.ICMS.orig.valor).zfill(1)
+        formatado += str(self.imposto.ICMS.CST.valor).zfill(2)
         return formatado
 
 
@@ -3824,7 +3824,7 @@ class InfNFe(XMLNFe):
 
     def get_xml(self):
         xml = XMLNFe.get_xml(self)
-        xml += '<infNFe versao="' + unicode(self.versao.valor) + '" Id="' + self.Id.valor + '">'
+        xml += '<infNFe versao="' + str(self.versao.valor) + '" Id="' + self.Id.valor + '">'
         xml += self.ide.xml
         xml += self.emit.xml
         xml += self.avulsa.xml
@@ -3957,24 +3957,24 @@ class NFe(XMLNFe):
         return digito
 
     def gera_nova_chave(self):
-        chave = unicode(self.infNFe.ide.cUF.valor).zfill(2)
+        chave = str(self.infNFe.ide.cUF.valor).zfill(2)
 
         if str(self.infNFe.versao.valor) == '3.10':
-            chave += unicode(self.infNFe.ide.dhEmi.valor.strftime('%y%m')).zfill(4)
+            chave += str(self.infNFe.ide.dhEmi.valor.strftime('%y%m')).zfill(4)
 
         else:
-            chave += unicode(self.infNFe.ide.dEmi.valor.strftime('%y%m')).zfill(4)
+            chave += str(self.infNFe.ide.dEmi.valor.strftime('%y%m')).zfill(4)
 
-        chave += unicode(self.infNFe.emit.CNPJ.valor).zfill(14)
-        chave += unicode(self.infNFe.ide.mod.valor).zfill(2)
-        chave += unicode(self.infNFe.ide.serie.valor).zfill(3)
-        chave += unicode(self.infNFe.ide.nNF.valor).zfill(9)
+        chave += str(self.infNFe.emit.CNPJ.valor).zfill(14)
+        chave += str(self.infNFe.ide.mod.valor).zfill(2)
+        chave += str(self.infNFe.ide.serie.valor).zfill(3)
+        chave += str(self.infNFe.ide.nNF.valor).zfill(9)
 
         #
         # A inclusão do tipo de emissão na chave já torna a chave válida também
         # para a versão 2.00 da NF-e
         #
-        chave += unicode(self.infNFe.ide.tpEmis.valor).zfill(1)
+        chave += str(self.infNFe.ide.tpEmis.valor).zfill(1)
 
         #
         # O código numério é um número aleatório
@@ -3988,7 +3988,7 @@ class NFe(XMLNFe):
         for c in chave:
             soma += int(c) ** 3 ** 2
 
-        codigo = unicode(soma)
+        codigo = str(soma)
         if len(codigo) > 8:
             codigo = codigo[-8:]
         else:
@@ -3999,7 +3999,7 @@ class NFe(XMLNFe):
         #
         # Define na estrutura do XML o campo cNF
         #
-        self.infNFe.ide.cNF.valor = unicode(self.infNFe.ide.tpEmis.valor).zfill(1) + codigo
+        self.infNFe.ide.cNF.valor = str(self.infNFe.ide.tpEmis.valor).zfill(1) + codigo
 
         #
         # Gera o dígito verificador
@@ -4011,7 +4011,7 @@ class NFe(XMLNFe):
         #
         self.infNFe.ide.cDV.valor = digito
 
-        chave += unicode(digito)
+        chave += str(digito)
         self.chave = chave
 
         #
@@ -4020,14 +4020,14 @@ class NFe(XMLNFe):
         self.infNFe.Id.valor = 'NFe' + chave
 
     def monta_chave(self):
-        chave = unicode(self.infNFe.ide.cUF.valor).zfill(2)
-        chave += unicode(self.infNFe.ide.dEmi.valor.strftime('%y%m')).zfill(4)
-        chave += unicode(self.infNFe.emit.CNPJ.valor).zfill(14)
-        chave += unicode(self.infNFe.ide.mod.valor).zfill(2)
-        chave += unicode(self.infNFe.ide.serie.valor).zfill(3)
-        chave += unicode(self.infNFe.ide.nNF.valor).zfill(9)
-        chave += unicode(self.infNFe.ide.cNF.valor).zfill(9)
-        chave += unicode(self.infNFe.ide.cDV.valor).zfill(1)
+        chave = str(self.infNFe.ide.cUF.valor).zfill(2)
+        chave += str(self.infNFe.ide.dEmi.valor.strftime('%y%m')).zfill(4)
+        chave += str(self.infNFe.emit.CNPJ.valor).zfill(14)
+        chave += str(self.infNFe.ide.mod.valor).zfill(2)
+        chave += str(self.infNFe.ide.serie.valor).zfill(3)
+        chave += str(self.infNFe.ide.nNF.valor).zfill(9)
+        chave += str(self.infNFe.ide.cNF.valor).zfill(9)
+        chave += str(self.infNFe.ide.cDV.valor).zfill(1)
         self.chave = chave
 
     def chave_para_codigo_barras(self):
@@ -4038,10 +4038,10 @@ class NFe(XMLNFe):
         return self.chave.encode('utf-8')
 
     def monta_dados_contingencia_fsda(self):
-        dados = unicode(self.infNFe.ide.cUF.valor).zfill(2)
-        dados += unicode(self.infNFe.ide.tpEmis.valor).zfill(1)
-        dados += unicode(self.infNFe.emit.CNPJ.valor).zfill(14)
-        dados += unicode(int(self.infNFe.total.ICMSTot.vNF.valor * 100)).zfill(14)
+        dados = str(self.infNFe.ide.cUF.valor).zfill(2)
+        dados += str(self.infNFe.ide.tpEmis.valor).zfill(1)
+        dados += str(self.infNFe.emit.CNPJ.valor).zfill(14)
+        dados += str(int(self.infNFe.total.ICMSTot.vNF.valor * 100)).zfill(14)
 
         #
         # Há ICMS próprio?
@@ -4062,7 +4062,7 @@ class NFe(XMLNFe):
         dados += self.infNFe.ide.dEmi.valor.strftime('%d').zfill(2)
 
         digito = self._calcula_dv(dados)
-        dados += unicode(digito)
+        dados += str(digito)
         self.dados_contingencia_fsda = dados
 
     def dados_contingencia_fsda_para_codigo_barras(self):
@@ -4091,13 +4091,13 @@ class NFe(XMLNFe):
 
     @property
     def numero_formatado(self):
-        num = unicode(self.infNFe.ide.nNF.valor).zfill(9)
+        num = str(self.infNFe.ide.nNF.valor).zfill(9)
         num_formatado = '.'.join((num[0:3], num[3:6], num[6:9]))
         return 'Nº ' + num_formatado
 
     @property
     def serie_formatada(self):
-        return 'SÉRIE ' + unicode(self.infNFe.ide.serie.valor).zfill(3)
+        return 'SÉRIE ' + str(self.infNFe.ide.serie.valor).zfill(3)
 
 
     def _formata_cpf(self, cpf):
@@ -4117,9 +4117,9 @@ class NFe(XMLNFe):
     @property
     def cnpj_emitente_formatado(self):
         if len(self.infNFe.emit.CPF.valor):
-            return self._formata_cpf(unicode(self.infNFe.emit.CPF.valor))
+            return self._formata_cpf(str(self.infNFe.emit.CPF.valor))
         else:
-            return self._formata_cnpj(unicode(self.infNFe.emit.CNPJ.valor))
+            return self._formata_cnpj(str(self.infNFe.emit.CNPJ.valor))
 
     @property
     def endereco_emitente_formatado(self):
@@ -4198,14 +4198,14 @@ class NFe(XMLNFe):
 
     @property
     def fone_emitente_formatado(self):
-        return self._formata_fone(unicode(self.infNFe.emit.enderEmit.fone.valor))
+        return self._formata_fone(str(self.infNFe.emit.enderEmit.fone.valor))
 
     @property
     def cnpj_destinatario_formatado(self):
         if self.infNFe.dest.CPF.valor and len(self.infNFe.dest.CPF.valor):
-            return self._formata_cpf(unicode(self.infNFe.dest.CPF.valor))
+            return self._formata_cpf(str(self.infNFe.dest.CPF.valor))
         elif self.infNFe.dest.CNPJ.valor and len(self.infNFe.dest.CNPJ.valor):
-            return self._formata_cnpj(unicode(self.infNFe.dest.CNPJ.valor))
+            return self._formata_cnpj(str(self.infNFe.dest.CNPJ.valor))
         elif self.infNFe.dest.idEstrangeiro.valor and len(self.infNFe.dest.idEstrangeiro.valor):
             return self.infNFe.dest.idEstrangeiro.valor
         else:
@@ -4227,7 +4227,7 @@ class NFe(XMLNFe):
 
     @property
     def fone_destinatario_formatado(self):
-        return self._formata_fone(unicode(self.infNFe.dest.enderDest.fone.valor))
+        return self._formata_fone(str(self.infNFe.dest.enderDest.fone.valor))
 
     @property
     def cnpj_retirada_formatado(self):

@@ -39,7 +39,7 @@
 # <http://www.gnu.org/licenses/>
 #
 
-from __future__ import division, print_function, unicode_literals
+
 
 import os
 import base64
@@ -351,7 +351,7 @@ class Certificado(object):
 
     def _prepara_doc_xml(self, xml):
         if isinstance(xml, str):
-            xml = unicode(xml.encode('utf-8'))
+            xml = str(xml.encode('utf-8'))
 
         doctype = self._obtem_doctype(xml)
 
@@ -373,7 +373,7 @@ class Certificado(object):
 
     def _finaliza_xml(self, xml):
         if isinstance(xml, str):
-            xml = unicode(xml.decode('utf-8'))
+            xml = str(xml.decode('utf-8'))
 
         doctype = self._obtem_doctype(xml)
 
@@ -460,7 +460,7 @@ class Certificado(object):
         noh_certificado = verificador._findall(doc_xml, 'X509Certificate', anywhere=True)
 
         if not noh_certificado:
-            raise ValueError(u'XML sem nó X509Certificate!')
+            raise ValueError('XML sem nó X509Certificate!')
 
         noh_certificado = noh_certificado[0]
 

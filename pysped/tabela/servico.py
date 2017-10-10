@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import division, print_function, unicode_literals, absolute_import
+
 import sys
 import os
 
@@ -14,7 +14,7 @@ class _Servico(object):
         self.descricao = descricao
 
     def __str__(self):
-        return unicode.encode(self.__unicode__(), 'utf-8')
+        return str.encode(self.__unicode__(), 'utf-8')
 
     def __unicode__(self):
         return self.codigo + ' - ' + self.descricao

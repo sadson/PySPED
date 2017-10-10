@@ -39,7 +39,7 @@
 # <http://www.gnu.org/licenses/>
 #
 
-from __future__ import division, print_function, unicode_literals
+
 
 from pysped.xml_sped import (NAMESPACE_NFE, Signature, TagCaracter,
                              TagDataHora, TagDecimal, TagHora, TagInteiro, XMLNFe)
@@ -1587,12 +1587,12 @@ class Det(nfe_110.Det):
         self.imposto   = Imposto()
 
     def cst_formatado(self):
-        formatado = unicode(self.imposto.ICMS.orig.valor).zfill(1)
+        formatado = str(self.imposto.ICMS.orig.valor).zfill(1)
 
         if self.imposto.ICMS.regime_tributario == 1:
-            formatado += unicode(self.imposto.ICMS.CSOSN.valor).zfill(3)
+            formatado += str(self.imposto.ICMS.CSOSN.valor).zfill(3)
         else:
-            formatado += unicode(self.imposto.ICMS.CST.valor).zfill(2)
+            formatado += str(self.imposto.ICMS.CST.valor).zfill(2)
 
         return formatado
 
@@ -2384,7 +2384,7 @@ class InfNFe(nfe_110.InfNFe):
 
     def get_xml(self):
         xml = XMLNFe.get_xml(self)
-        xml += '<infNFe versao="' + unicode(self.versao.valor) + '" Id="' + self.Id.valor + '">'
+        xml += '<infNFe versao="' + str(self.versao.valor) + '" Id="' + self.Id.valor + '">'
         xml += self.ide.xml
         xml += self.emit.xml
         xml += self.avulsa.xml
@@ -2483,20 +2483,20 @@ class NFe(nfe_110.NFe):
         self.infNFe.ide.cNF.valor = self.chave[35:43]
 
     def monta_chave(self):
-        chave = unicode(self.infNFe.ide.cUF.valor).strip().rjust(2, '0')
-        chave += unicode(self.infNFe.ide.dEmi.valor.strftime('%y%m')).strip().rjust(4, '0')
-        chave += unicode(self.infNFe.emit.CNPJ.valor).strip().rjust(14, '0')
+        chave = str(self.infNFe.ide.cUF.valor).strip().rjust(2, '0')
+        chave += str(self.infNFe.ide.dEmi.valor.strftime('%y%m')).strip().rjust(4, '0')
+        chave += str(self.infNFe.emit.CNPJ.valor).strip().rjust(14, '0')
         chave += '55'
-        chave += unicode(self.infNFe.ide.serie.valor).strip().rjust(3, '0')
-        chave += unicode(self.infNFe.ide.nNF.valor).strip().rjust(9, '0')
+        chave += str(self.infNFe.ide.serie.valor).strip().rjust(3, '0')
+        chave += str(self.infNFe.ide.nNF.valor).strip().rjust(9, '0')
 
         #
         # Inclui agora o tipo da emissão
         #
-        chave += unicode(self.infNFe.ide.tpEmis.valor).strip().rjust(1, '0')
+        chave += str(self.infNFe.ide.tpEmis.valor).strip().rjust(1, '0')
 
-        chave += unicode(self.infNFe.ide.cNF.valor).strip().rjust(8, '0')
-        chave += unicode(self.infNFe.ide.cDV.valor).strip().rjust(1, '0')
+        chave += str(self.infNFe.ide.cNF.valor).strip().rjust(8, '0')
+        chave += str(self.infNFe.ide.cDV.valor).strip().rjust(1, '0')
         self.chave = chave
 
     def cst_descricao(self):

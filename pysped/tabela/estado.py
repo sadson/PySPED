@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import division, print_function, unicode_literals, absolute_import
+
 import os
 import sys
 
@@ -18,7 +18,7 @@ class _Estado(object):
         self.codigo_geoip = codigo_geoip
 
     def __str__(self):
-        return unicode.encode(self.__unicode__(), 'utf-8')
+        return str.encode(self.__unicode__(), 'utf-8')
 
     def __unicode__(self):
         return self.nome + ' - ' + self.sigla + ' - IBGE: ' + self.codigo_ibge
@@ -51,7 +51,7 @@ def _monta_dicionario_ibge():
 def _monta_dicionario_sigla():
     dicionario = {}
 
-    for k, v in ESTADO_IBGE.items():
+    for k, v in list(ESTADO_IBGE.items()):
         dicionario[v.sigla] = v
 
     return dicionario

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import division, print_function, unicode_literals, absolute_import
+
 import os
 import sys
 from .pais import PAIS_BRASIL, maiuscula_sem_acento
@@ -23,7 +23,7 @@ class _Municipio(object):
         self.cep = cep
 
     def __str__(self):
-        return unicode.encode(self.__unicode__(), 'utf-8')
+        return str.encode(self.__unicode__(), 'utf-8')
 
     def __unicode__(self):
         return self.nome + ' - ' + self.estado.sigla + ' - IBGE: ' + self.codigo_ibge[:3] + '.' + self.codigo_ibge[3:6] + '-' + self.codigo_ibge[6] + ' - SIAFI: ' + self.codigo_siafi
@@ -60,7 +60,7 @@ def _monta_dicionario_ibge():
 def _monta_dicionario_siafi():
     dicionario = {}
 
-    for k, v in MUNICIPIO_IBGE.items():
+    for k, v in list(MUNICIPIO_IBGE.items()):
         if v.codigo_siafi:
             dicionario[v.codigo_siafi] = v
 
@@ -70,7 +70,7 @@ def _monta_dicionario_siafi():
 def _monta_dicionario_estado_nome():
     dicionario = {}
 
-    for k, v in MUNICIPIO_IBGE.items():
+    for k, v in list(MUNICIPIO_IBGE.items()):
         if not v.estado.sigla in dicionario:
             dicionario[v.estado.sigla] = {}
 

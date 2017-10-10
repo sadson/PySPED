@@ -39,7 +39,7 @@
 # <http://www.gnu.org/licenses/>
 #
 
-from __future__ import division, print_function, unicode_literals
+
 
 from pysped.xml_sped import (ABERTURA, NAMESPACE_CTE, Signature, TagCaracter,
                              TagData, TagDataHora, TagDecimal, TagHora,
@@ -1798,7 +1798,7 @@ class InfCTe(XMLNFe):
 
     def get_xml(self):
         xml = XMLNFe.get_xml(self)
-        xml += '<infCte versao="' + unicode(self.versao.valor) + '" Id="' + self.Id.valor + '">'
+        xml += '<infCte versao="' + str(self.versao.valor) + '" Id="' + self.Id.valor + '">'
         xml += self.ide.xml
         xml += self.compl.xml
         xml += self.emit.xml
@@ -1950,13 +1950,13 @@ class CTe(XMLNFe):
         return digito
 
     def gera_nova_chave(self):
-        chave = unicode(self.infCte.ide.cUF.valor).zfill(2)
-        chave += unicode(self.infCte.ide.dhEmi.valor.strftime('%y%m')).zfill(4)
-        chave += unicode(self.infCte.emit.CNPJ.valor).zfill(14)
-        chave += unicode(self.infCte.ide.mod.valor).zfill(2)
-        chave += unicode(self.infCte.ide.serie.valor).zfill(3)
-        chave += unicode(self.infCte.ide.nCT.valor).zfill(9)
-        chave += unicode(self.infCte.ide.tpEmis.valor).zfill(1)
+        chave = str(self.infCte.ide.cUF.valor).zfill(2)
+        chave += str(self.infCte.ide.dhEmi.valor.strftime('%y%m')).zfill(4)
+        chave += str(self.infCte.emit.CNPJ.valor).zfill(14)
+        chave += str(self.infCte.ide.mod.valor).zfill(2)
+        chave += str(self.infCte.ide.serie.valor).zfill(3)
+        chave += str(self.infCte.ide.nCT.valor).zfill(9)
+        chave += str(self.infCte.ide.tpEmis.valor).zfill(1)
 
         #
         # O código numério é um número aleatório
@@ -1970,7 +1970,7 @@ class CTe(XMLNFe):
         for c in chave:
             soma += int(c) ** 3 ** 2
 
-        codigo = unicode(soma)
+        codigo = str(soma)
         if len(codigo) > 8:
             codigo = codigo[-8:]
         else:
@@ -1994,7 +1994,7 @@ class CTe(XMLNFe):
         #
         self.infCte.ide.cDV.valor = digito
 
-        chave += unicode(digito)
+        chave += str(digito)
         self.chave = chave
 
         #
@@ -2003,14 +2003,14 @@ class CTe(XMLNFe):
         self.infCte.Id.valor = 'CTe' + chave
 
     def monta_chave(self):
-        chave = unicode(self.infCte.ide.cUF.valor).zfill(2)
-        chave += unicode(self.infCte.ide.dEmi.valor.strftime('%y%m')).zfill(4)
-        chave += unicode(self.infCte.emit.CNPJ.valor).zfill(14)
-        chave += unicode(self.infCte.ide.mod.valor).zfill(2)
-        chave += unicode(self.infCte.ide.serie.valor).zfill(3)
-        chave += unicode(self.infCte.ide.nCT.valor).zfill(9)
-        chave += unicode(self.infCte.ide.cCT.valor).zfill(9)
-        chave += unicode(self.infCte.ide.cDV.valor).zfill(1)
+        chave = str(self.infCte.ide.cUF.valor).zfill(2)
+        chave += str(self.infCte.ide.dEmi.valor.strftime('%y%m')).zfill(4)
+        chave += str(self.infCte.emit.CNPJ.valor).zfill(14)
+        chave += str(self.infCte.ide.mod.valor).zfill(2)
+        chave += str(self.infCte.ide.serie.valor).zfill(3)
+        chave += str(self.infCte.ide.nCT.valor).zfill(9)
+        chave += str(self.infCte.ide.cCT.valor).zfill(9)
+        chave += str(self.infCte.ide.cDV.valor).zfill(1)
         self.chave = chave
 
     def chave_para_codigo_barras(self):
@@ -2021,10 +2021,10 @@ class CTe(XMLNFe):
         return self.chave.encode('utf-8')
 
     def monta_dados_contingencia_fsda(self):
-        dados = unicode(self.infCte.ide.cUF.valor).zfill(2)
-        dados += unicode(self.infCte.ide.tpEmis.valor).zfill(1)
-        dados += unicode(self.infCte.emit.CNPJ.valor).zfill(14)
-        dados += unicode(int(self.infCte.total.ICMSTot.vNF.valor * 100)).zfill(14)
+        dados = str(self.infCte.ide.cUF.valor).zfill(2)
+        dados += str(self.infCte.ide.tpEmis.valor).zfill(1)
+        dados += str(self.infCte.emit.CNPJ.valor).zfill(14)
+        dados += str(int(self.infCte.total.ICMSTot.vNF.valor * 100)).zfill(14)
 
         #
         # Há ICMS próprio?
@@ -2045,7 +2045,7 @@ class CTe(XMLNFe):
         dados += self.infCte.ide.dEmi.valor.strftime('%d').zfill(2)
 
         digito = self._calcula_dv(dados)
-        dados += unicode(digito)
+        dados += str(digito)
         self.dados_contingencia_fsda = dados
 
     def dados_contingencia_fsda_para_codigo_barras(self):
@@ -2072,12 +2072,12 @@ class CTe(XMLNFe):
         return dados_formatados
 
     def numero_formatado(self):
-        num = unicode(self.infCte.ide.nCT.valor).zfill(9)
+        num = str(self.infCte.ide.nCT.valor).zfill(9)
         num_formatado = '.'.join((num[0:3], num[3:6], num[6:9]))
         return 'Nº ' + num_formatado
 
     def serie_formatada(self):
-        return 'SÉRIE ' + unicode(self.infCte.ide.serie.valor).zfill(3)
+        return 'SÉRIE ' + str(self.infCte.ide.serie.valor).zfill(3)
 
 
     def _formata_cpf(self, cpf):
@@ -2096,9 +2096,9 @@ class CTe(XMLNFe):
 
     def cnpj_emitente_formatado(self):
         if len(self.infCte.emit.CPF.valor):
-            return self._formata_cpf(unicode(self.infCte.emit.CPF.valor))
+            return self._formata_cpf(str(self.infCte.emit.CPF.valor))
         else:
-            return self._formata_cnpj(unicode(self.infCte.emit.CNPJ.valor))
+            return self._formata_cnpj(str(self.infCte.emit.CNPJ.valor))
 
     def endereco_emitente_formatado(self):
         formatado = self.infCte.emit.enderEmit.xLgr.valor
@@ -2173,13 +2173,13 @@ class CTe(XMLNFe):
         return formatado
 
     def fone_emitente_formatado(self):
-        return self._formata_fone(unicode(self.infCte.emit.enderEmit.fone.valor))
+        return self._formata_fone(str(self.infCte.emit.enderEmit.fone.valor))
 
     def cnpj_destinatario_formatado(self):
         if self.infCte.dest.CPF.valor and len(self.infCte.dest.CPF.valor):
-            return self._formata_cpf(unicode(self.infCte.dest.CPF.valor))
+            return self._formata_cpf(str(self.infCte.dest.CPF.valor))
         elif self.infCte.dest.CNPJ.valor and len(self.infCte.dest.CNPJ.valor):
-            return self._formata_cnpj(unicode(self.infCte.dest.CNPJ.valor))
+            return self._formata_cnpj(str(self.infCte.dest.CNPJ.valor))
         else:
             return ''
 
@@ -2196,7 +2196,7 @@ class CTe(XMLNFe):
         return self._formata_cep(self.infCte.dest.enderDest.CEP.valor)
 
     def fone_destinatario_formatado(self):
-        return self._formata_fone(unicode(self.infCte.dest.enderDest.fone.valor))
+        return self._formata_fone(str(self.infCte.dest.enderDest.fone.valor))
 
     def cnpj_retirada_formatado(self):
         return self._formata_cnpj(self.infCte.retirada.CNPJ.valor)

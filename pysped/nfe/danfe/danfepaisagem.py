@@ -39,7 +39,7 @@
 # <http://www.gnu.org/licenses/>
 #
 
-from __future__ import division, print_function, unicode_literals
+
 
 from reportlab.lib.units import cm
 
@@ -82,7 +82,7 @@ class DANFEPaisagem(Report):
         super(DANFEPaisagem, self).__init__(*args, **kargs)
 
     def on_new_page(self, generator):
-        if generator._current_page_number <> 1:
+        if generator._current_page_number != 1:
             self.band_page_footer = None
 
             self.band_page_header = RemetentePaisagem()
@@ -96,15 +96,15 @@ class CanhotoPaisagem(BandaDANFE):
     def __init__(self):
         super(CanhotoPaisagem, self).__init__()
         self.elements = []
-        self.inclui_texto(nome='canhoto_recebemos', titulo=u'RECEBEMOS OS PRODUTOS E/OU SERVIÇOS CONSTANTES DA NOTA FISCAL ELETRÔNICA INDICADA AO LADO DE', texto='', top=0*cm, left=0*cm, width=16*cm)
-        self.inclui_texto(nome='canhoto_data', titulo=u'DATA DE RECEBIMENTO', texto='', top=0.7*cm, left=0*cm, width=2.7*cm)
-        self.inclui_texto(nome='canhoto_assinatura', titulo=u'IDENTIFICAÇÃO E ASSINATURA DO RECEBEDOR', texto='', top=0.7*cm, left=2.7*cm, width=13.3*cm)
+        self.inclui_texto(nome='canhoto_recebemos', titulo='RECEBEMOS OS PRODUTOS E/OU SERVIÇOS CONSTANTES DA NOTA FISCAL ELETRÔNICA INDICADA AO LADO DE', texto='', top=0*cm, left=0*cm, width=16*cm)
+        self.inclui_texto(nome='canhoto_data', titulo='DATA DE RECEBIMENTO', texto='', top=0.7*cm, left=0*cm, width=2.7*cm)
+        self.inclui_texto(nome='canhoto_assinatura', titulo='IDENTIFICAÇÃO E ASSINATURA DO RECEBEDOR', texto='', top=0.7*cm, left=2.7*cm, width=13.3*cm)
 
-        lbl, txt = self.inclui_texto(nome='canhoto_nfe', titulo=u'NF-e', texto='', top=0*cm, left=16*cm, width=3.4*cm, height=1.4*cm, margem_direita=True)
+        lbl, txt = self.inclui_texto(nome='canhoto_nfe', titulo='NF-e', texto='', top=0*cm, left=16*cm, width=3.4*cm, height=1.4*cm, margem_direita=True)
         lbl.style = DESCRITIVO_NUMERO
-        txt = self.inclui_texto_sem_borda(nome='canhoto_numero', texto=u'Nº 000.000.000', top=0.4*cm, left=16*cm, width=3.4*cm, height=0.5*cm)
+        txt = self.inclui_texto_sem_borda(nome='canhoto_numero', texto='Nº 000.000.000', top=0.4*cm, left=16*cm, width=3.4*cm, height=0.5*cm)
         txt.style = DESCRITIVO_NUMERO
-        txt = self.inclui_texto_sem_borda(nome='canhoto_numero', texto=u'SÉRIE 000', top=0.8*cm, left=16*cm, width=3.4*cm, height=0.5*cm)
+        txt = self.inclui_texto_sem_borda(nome='canhoto_numero', texto='SÉRIE 000', top=0.8*cm, left=16*cm, width=3.4*cm, height=0.5*cm)
         txt.style = DESCRITIVO_NUMERO
 
         self.elements.append(Line(top=1.65*cm, bottom=1.65*cm, left=0*cm, right=19.4*cm, stroke_width=0.1))
@@ -124,35 +124,35 @@ class RemetentePaisagem(BandaDANFE):
         self.inclui_texto(nome='retemente_danfe', titulo='', texto='', top=0*cm, left=8*cm, width=3.4*cm, height=4*cm)
 
         self.inclui_texto(nome='remetente_codigobarras', titulo='', texto='', top=0*cm, left=11.4*cm, width=8*cm, height=1.625*cm, margem_direita=True)
-        lbl, fld = self.inclui_texto(nome='remetente_chave', titulo=u'CHAVE DE ACESSO', texto=u'1234 5678 9012 3456 7890 1234 5678 9012 3456 7890 1234', top=1.625*cm, left=11.4*cm, width=8*cm, margem_direita=True)
+        lbl, fld = self.inclui_texto(nome='remetente_chave', titulo='CHAVE DE ACESSO', texto='1234 5678 9012 3456 7890 1234 5678 9012 3456 7890 1234', top=1.625*cm, left=11.4*cm, width=8*cm, margem_direita=True)
         fld.style = DADO_CHAVE
 
 
-        self.inclui_texto(nome='remetente_natureza', titulo=u'NATUREZA DA OPERAÇÃO', texto=u'VENDA PARA CONSUMIDOR FINAL', top=4*cm, left=0*cm, width=11.4*cm)
+        self.inclui_texto(nome='remetente_natureza', titulo='NATUREZA DA OPERAÇÃO', texto='VENDA PARA CONSUMIDOR FINAL', top=4*cm, left=0*cm, width=11.4*cm)
 
-        self.inclui_texto(nome='remetente_ie', titulo=u'INSCRIÇÃO ESTADUAL', texto=u'', top=4.70*cm, left=0*cm, width=6.4*cm)
-        self.inclui_texto(nome='remetente_iest', titulo=u'INSCRIÇÃO ESTADUAL DO SUBSTITUTO TRIBUTÁRIO', texto=u'', top=4.70*cm, left=6.4*cm, width=6.6*cm)
-        self.inclui_texto(nome='remetente_cnpj', titulo=u'CNPJ', texto=u'', top=4.70*cm, left=13*cm, width=6.4*cm, margem_direita=True)
+        self.inclui_texto(nome='remetente_ie', titulo='INSCRIÇÃO ESTADUAL', texto='', top=4.70*cm, left=0*cm, width=6.4*cm)
+        self.inclui_texto(nome='remetente_iest', titulo='INSCRIÇÃO ESTADUAL DO SUBSTITUTO TRIBUTÁRIO', texto='', top=4.70*cm, left=6.4*cm, width=6.6*cm)
+        self.inclui_texto(nome='remetente_cnpj', titulo='CNPJ', texto='', top=4.70*cm, left=13*cm, width=6.4*cm, margem_direita=True)
 
         self.height = 5.4*cm
 
     def campo_variavel_normal(self):
-        txt = self.inclui_texto_sem_borda(nome='remetente_var1', texto=u'Consulta de autenticidade no portal nacional da NF-e<br /><a href="http://www.nfe.fazenda.gov.br/portal"><u>www.nfe.fazenda.gov.br/portal</u></a><br /> ou no site da SEFAZ autorizadora', top=2.375*cm, left=11.4*cm, width=8*cm, height=1.625*cm)
+        txt = self.inclui_texto_sem_borda(nome='remetente_var1', texto='Consulta de autenticidade no portal nacional da NF-e<br /><a href="http://www.nfe.fazenda.gov.br/portal"><u>www.nfe.fazenda.gov.br/portal</u></a><br /> ou no site da SEFAZ autorizadora', top=2.375*cm, left=11.4*cm, width=8*cm, height=1.625*cm)
         txt.margin_top = 0.1*cm
         txt.style = DADO_VARIAVEL
 
-        lbl, txt = self.inclui_texto(nome='remetente_var2', titulo=u'PROTOCOLO DE AUTORIZAÇÃO DE USO', texto=u'123456789012345 99/99/9999 99:99:99', top=4*cm, left=11.4*cm, width=8*cm, margem_direita=True)
+        lbl, txt = self.inclui_texto(nome='remetente_var2', titulo='PROTOCOLO DE AUTORIZAÇÃO DE USO', texto='123456789012345 99/99/9999 99:99:99', top=4*cm, left=11.4*cm, width=8*cm, margem_direita=True)
         txt.style = DADO_VARIAVEL
 
     def campo_variavel_fsda(self):
         pass
 
     def campo_variavel_dpec(self):
-        txt = self.inclui_texto_sem_borda(nome='remetente_var1', texto=u'Consulta de autenticidade no portal nacional da NF-e<br /><a href="http://www.nfe.fazenda.gov.br/portal"><u>www.nfe.fazenda.gov.br/portal</u></a>', top=2.375*cm, left=11.4*cm, width=8*cm, height=1.625*cm)
+        txt = self.inclui_texto_sem_borda(nome='remetente_var1', texto='Consulta de autenticidade no portal nacional da NF-e<br /><a href="http://www.nfe.fazenda.gov.br/portal"><u>www.nfe.fazenda.gov.br/portal</u></a>', top=2.375*cm, left=11.4*cm, width=8*cm, height=1.625*cm)
         txt.margin_top = 0.4*cm
         txt.style = DADO_VARIAVEL
 
-        lbl, txt = self.inclui_texto(nome='remetente_var2', titulo=u'NÚMERO DE REGISTRO DPEC', texto=u'123456789012345 99/99/9999 99:99:99', top=4*cm, left=11.4*cm, width=8*cm, margem_direita=True)
+        lbl, txt = self.inclui_texto(nome='remetente_var2', titulo='NÚMERO DE REGISTRO DPEC', texto='123456789012345 99/99/9999 99:99:99', top=4*cm, left=11.4*cm, width=8*cm, margem_direita=True)
         txt.style = DADO_VARIAVEL
 
 
@@ -160,25 +160,25 @@ class DestinatarioPaisagem(BandaDANFE):
     def __init__(self):
         super(DestinatarioPaisagem, self).__init__()
         self.elements = []
-        self.inclui_descritivo(nome='remetente', titulo=u'DESTINATÁRIO/REMETENTE', top=0*cm, left=0*cm, width=19.4*cm)
+        self.inclui_descritivo(nome='remetente', titulo='DESTINATÁRIO/REMETENTE', top=0*cm, left=0*cm, width=19.4*cm)
 
         # 1ª linha
-        self.inclui_texto(nome='remetente_nome', titulo=u'NOME/RAZÃO SOCIAL', texto=u'TAUGA RS TECNOLOGIA LTDA.', top=0.42*cm, left=0*cm, width=14*cm)
-        self.inclui_texto(nome='remetente_cnpj', titulo=u'CNPJ/CPF', texto=u'02.544.208/0001-05', top=0.42*cm, left=14*cm, width=3.2*cm)
-        self.inclui_texto(nome='remetente_data_emissao', titulo=u'DATA DA EMISSÃO', texto=u'99/99/9999', top=0.42*cm, left=17.2*cm, width=2.2*cm, margem_direita=True)
+        self.inclui_texto(nome='remetente_nome', titulo='NOME/RAZÃO SOCIAL', texto='TAUGA RS TECNOLOGIA LTDA.', top=0.42*cm, left=0*cm, width=14*cm)
+        self.inclui_texto(nome='remetente_cnpj', titulo='CNPJ/CPF', texto='02.544.208/0001-05', top=0.42*cm, left=14*cm, width=3.2*cm)
+        self.inclui_texto(nome='remetente_data_emissao', titulo='DATA DA EMISSÃO', texto='99/99/9999', top=0.42*cm, left=17.2*cm, width=2.2*cm, margem_direita=True)
 
         # 2ª linha
-        self.inclui_texto(nome='remetente_nome', titulo=u'ENDEREÇO', texto=u'R. IBIUNA, 729 - SALA 2', top=1.12*cm, left=0*cm, width=10.9*cm)
-        self.inclui_texto(nome='remetente_bairro', titulo=u'BAIRRO/DISTRITO', texto=u'JD. MORUMBI', top=1.12*cm, left=10.9*cm, width=4.5*cm)
-        self.inclui_texto(nome='remetente_cep', titulo=u'CEP', texto=u'99.999-999', top=1.12*cm, left=15.4*cm, width=1.8*cm)
-        self.inclui_texto(nome='remetente_data_entradasaida', titulo=u'DATA DA ENTRADA/SAÍDA', texto=u'99/99/9999', top=1.12*cm, left=17.2*cm, width=2.2*cm, margem_direita=True)
+        self.inclui_texto(nome='remetente_nome', titulo='ENDEREÇO', texto='R. IBIUNA, 729 - SALA 2', top=1.12*cm, left=0*cm, width=10.9*cm)
+        self.inclui_texto(nome='remetente_bairro', titulo='BAIRRO/DISTRITO', texto='JD. MORUMBI', top=1.12*cm, left=10.9*cm, width=4.5*cm)
+        self.inclui_texto(nome='remetente_cep', titulo='CEP', texto='99.999-999', top=1.12*cm, left=15.4*cm, width=1.8*cm)
+        self.inclui_texto(nome='remetente_data_entradasaida', titulo='DATA DA ENTRADA/SAÍDA', texto='99/99/9999', top=1.12*cm, left=17.2*cm, width=2.2*cm, margem_direita=True)
 
         # 3ª linha
-        self.inclui_texto(nome='remetente_municipio', titulo=u'MUNICÍPIO', texto=u'SOROCABA', top=1.82*cm, left=0*cm, width=10.4*cm)
-        self.inclui_texto(nome='remetente_fone', titulo=u'FONE', texto=u'(15) 3411-0602', top=1.82*cm, left=10.4*cm, width=2.8*cm)
-        self.inclui_texto(nome='remetente_uf', titulo=u'UF', texto='MM', top=1.82*cm, left=13.2*cm, width=0.8*cm)
-        self.inclui_texto(nome='remetente_ie', titulo=u'INSCRIÇÃO ESTADUAL', texto=u'MM999999999999', top=1.82*cm, left=14*cm, width=3.2*cm)
-        self.inclui_texto(nome='remetente_hora_entradasaida', titulo=u'HORA DA ENTRADA/SAÍDA', texto=u'99h99', top=1.82*cm, left=17.2*cm, width=2.2*cm, margem_direita=True)
+        self.inclui_texto(nome='remetente_municipio', titulo='MUNICÍPIO', texto='SOROCABA', top=1.82*cm, left=0*cm, width=10.4*cm)
+        self.inclui_texto(nome='remetente_fone', titulo='FONE', texto='(15) 3411-0602', top=1.82*cm, left=10.4*cm, width=2.8*cm)
+        self.inclui_texto(nome='remetente_uf', titulo='UF', texto='MM', top=1.82*cm, left=13.2*cm, width=0.8*cm)
+        self.inclui_texto(nome='remetente_ie', titulo='INSCRIÇÃO ESTADUAL', texto='MM999999999999', top=1.82*cm, left=14*cm, width=3.2*cm)
+        self.inclui_texto(nome='remetente_hora_entradasaida', titulo='HORA DA ENTRADA/SAÍDA', texto='99h99', top=1.82*cm, left=17.2*cm, width=2.2*cm, margem_direita=True)
 
         self.height = 2.52*cm
 
@@ -187,11 +187,11 @@ class LocalRetiradaPaisagem(BandaDANFE):
     def __init__(self):
         super(LocalRetiradaPaisagem, self).__init__()
         self.elements = []
-        self.inclui_descritivo(nome='locret', titulo=u'LOCAL DE RETIRADA', top=0*cm, left=0*cm, width=19.4*cm)
+        self.inclui_descritivo(nome='locret', titulo='LOCAL DE RETIRADA', top=0*cm, left=0*cm, width=19.4*cm)
 
         # 1ª linha
-        self.inclui_texto(nome='locret_cnpj', titulo=u'CNPJ/CPF', texto=u'02.544.208/0001-05', top=0.42*cm, left=0*cm, width=3.2*cm)
-        self.inclui_texto(nome='locret_endereco', titulo=u'ENDEREÇO', texto=u'', top=0.42*cm, left=3.2*cm, width=16.2*cm, margem_direita=True)
+        self.inclui_texto(nome='locret_cnpj', titulo='CNPJ/CPF', texto='02.544.208/0001-05', top=0.42*cm, left=0*cm, width=3.2*cm)
+        self.inclui_texto(nome='locret_endereco', titulo='ENDEREÇO', texto='', top=0.42*cm, left=3.2*cm, width=16.2*cm, margem_direita=True)
 
         self.height = 1.12*cm
 
@@ -199,11 +199,11 @@ class LocalEntregaPaisagem(BandaDANFE):
     def __init__(self):
         super(LocalEntregaPaisagem, self).__init__()
         self.elements = []
-        self.inclui_descritivo(nome='locent', titulo=u'LOCAL DE ENTREGA', top=0*cm, left=0*cm, width=19.4*cm)
+        self.inclui_descritivo(nome='locent', titulo='LOCAL DE ENTREGA', top=0*cm, left=0*cm, width=19.4*cm)
 
         # 1ª linha
-        self.inclui_texto(nome='locent_cnpj', titulo=u'CNPJ/CPF', texto=u'02.544.208/0001-05', top=0.42*cm, left=0*cm, width=3.2*cm)
-        self.inclui_texto(nome='locent_endereco', titulo=u'ENDEREÇO', texto=u'', top=0.42*cm, left=3.2*cm, width=16.2*cm, margem_direita=True)
+        self.inclui_texto(nome='locent_cnpj', titulo='CNPJ/CPF', texto='02.544.208/0001-05', top=0.42*cm, left=0*cm, width=3.2*cm)
+        self.inclui_texto(nome='locent_endereco', titulo='ENDEREÇO', texto='', top=0.42*cm, left=3.2*cm, width=16.2*cm, margem_direita=True)
 
         self.height = 1.12*cm
 
@@ -212,10 +212,10 @@ class FaturaAVistaPaisagem(BandaDANFE):
     def __init__(self):
         super(FaturaAVistaPaisagem, self).__init__()
         self.elements = []
-        self.inclui_descritivo(nome='fat', titulo=u'FATURA', top=0*cm, left=0*cm, width=19.4*cm)
+        self.inclui_descritivo(nome='fat', titulo='FATURA', top=0*cm, left=0*cm, width=19.4*cm)
 
         # 1ª linha
-        lbl, txt = self.inclui_texto(nome='fat_texto', titulo='', texto=u'PAGAMENTO À VISTA', top=0.42*cm, left=0*cm, width=19.4*cm)
+        lbl, txt = self.inclui_texto(nome='fat_texto', titulo='', texto='PAGAMENTO À VISTA', top=0.42*cm, left=0*cm, width=19.4*cm)
         lbl.borders['right'] = False
 
         self.height = 1.12*cm
@@ -225,22 +225,22 @@ class CalculoImpostoPaisagem(BandaDANFE):
     def __init__(self):
         super(CalculoImpostoPaisagem, self).__init__()
         self.elements = []
-        self.inclui_descritivo(nome='clc', titulo=u'CÁLCULO DO IMPOSTO', top=0*cm, left=0*cm, width=19.4*cm)
+        self.inclui_descritivo(nome='clc', titulo='CÁLCULO DO IMPOSTO', top=0*cm, left=0*cm, width=19.4*cm)
 
         # 1ª linha
-        lbl, txt = self.inclui_texto_numerico(nome='clc_bip', titulo=u'BASE DE CÁLCULO DO ICMS', texto=u'9.999.999.999,99', top=0.42*cm, left=0*cm, width=3.88*cm)
-        lbl, txt = self.inclui_texto_numerico(nome='clc_vip', titulo=u'VALOR DO ICMS', texto=u'9.999.999.999,99', top=0.42*cm, left=3.88*cm, width=3.88*cm)
-        lbl, txt = self.inclui_texto_numerico(nome='clc_bis', titulo=u'BASE DE CÁLCULO DO ICMS ST', texto=u'9.999.999.999,99', top=0.42*cm, left=7.76*cm, width=3.88*cm)
-        lbl, txt = self.inclui_texto_numerico(nome='clc_vis', titulo=u'VALOR DO ICMS ST', texto=u'9.999.999.999,99', top=0.42*cm, left=11.64*cm, width=3.88*cm)
-        lbl, txt = self.inclui_texto_numerico(nome='clc_vpn', titulo=u'VALOR TOTAL DOS PRODUTOS', texto=u'9.999.999.999,99', top=0.42*cm, left=15.52*cm, width=3.88*cm, margem_direita=True)
+        lbl, txt = self.inclui_texto_numerico(nome='clc_bip', titulo='BASE DE CÁLCULO DO ICMS', texto='9.999.999.999,99', top=0.42*cm, left=0*cm, width=3.88*cm)
+        lbl, txt = self.inclui_texto_numerico(nome='clc_vip', titulo='VALOR DO ICMS', texto='9.999.999.999,99', top=0.42*cm, left=3.88*cm, width=3.88*cm)
+        lbl, txt = self.inclui_texto_numerico(nome='clc_bis', titulo='BASE DE CÁLCULO DO ICMS ST', texto='9.999.999.999,99', top=0.42*cm, left=7.76*cm, width=3.88*cm)
+        lbl, txt = self.inclui_texto_numerico(nome='clc_vis', titulo='VALOR DO ICMS ST', texto='9.999.999.999,99', top=0.42*cm, left=11.64*cm, width=3.88*cm)
+        lbl, txt = self.inclui_texto_numerico(nome='clc_vpn', titulo='VALOR TOTAL DOS PRODUTOS', texto='9.999.999.999,99', top=0.42*cm, left=15.52*cm, width=3.88*cm, margem_direita=True)
 
         # 2ª linha
-        lbl, txt = self.inclui_texto_numerico(nome='clc_vfrete', titulo=u'VALOR DO FRETE', texto=u'9.999.999.999,99', top=1.12*cm, left=0*cm, width=3.104*cm)
-        lbl, txt = self.inclui_texto_numerico(nome='clc_vseguro', titulo=u'VALOR DO SEGURO', texto=u'9.999.999.999,99', top=1.12*cm, left=3.104*cm, width=3.104*cm)
-        lbl, txt = self.inclui_texto_numerico(nome='clc_vdesconto', titulo=u'DESCONTO', texto=u'9.999.999.999,99', top=1.12*cm, left=6.208*cm, width=3.104*cm)
-        lbl, txt = self.inclui_texto_numerico(nome='clc_voutras', titulo=u'OUTRAS DESPESAS ACESSÓRIAS', texto=u'9.999.999.999,99', top=1.12*cm, left=9.312*cm, width=3.104*cm)
-        lbl, txt = self.inclui_texto_numerico(nome='clc_vipi', titulo=u'VALOR TOTAL DO IPI', texto=u'9.999.999.999,99', top=1.12*cm, left=12.416*cm, width=3.104*cm)
-        lbl, txt = self.inclui_texto_numerico(nome='clc_vnf', titulo=u'VALOR TOTAL DA NOTA', texto=u'9.999.999.999,99', top=1.12*cm, left=15.52*cm, width=3.88*cm, margem_direita=True)
+        lbl, txt = self.inclui_texto_numerico(nome='clc_vfrete', titulo='VALOR DO FRETE', texto='9.999.999.999,99', top=1.12*cm, left=0*cm, width=3.104*cm)
+        lbl, txt = self.inclui_texto_numerico(nome='clc_vseguro', titulo='VALOR DO SEGURO', texto='9.999.999.999,99', top=1.12*cm, left=3.104*cm, width=3.104*cm)
+        lbl, txt = self.inclui_texto_numerico(nome='clc_vdesconto', titulo='DESCONTO', texto='9.999.999.999,99', top=1.12*cm, left=6.208*cm, width=3.104*cm)
+        lbl, txt = self.inclui_texto_numerico(nome='clc_voutras', titulo='OUTRAS DESPESAS ACESSÓRIAS', texto='9.999.999.999,99', top=1.12*cm, left=9.312*cm, width=3.104*cm)
+        lbl, txt = self.inclui_texto_numerico(nome='clc_vipi', titulo='VALOR TOTAL DO IPI', texto='9.999.999.999,99', top=1.12*cm, left=12.416*cm, width=3.104*cm)
+        lbl, txt = self.inclui_texto_numerico(nome='clc_vnf', titulo='VALOR TOTAL DA NOTA', texto='9.999.999.999,99', top=1.12*cm, left=15.52*cm, width=3.88*cm, margem_direita=True)
 
         self.height = 1.82*cm
 
@@ -249,12 +249,12 @@ class TransportePaisagem(BandaDANFE):
     def __init__(self):
         super(TransportePaisagem, self).__init__()
         self.elements = []
-        self.inclui_descritivo(nome='clc', titulo=u'TRANSPORTADOR/VOLUMES TRANSPORTADOS', top=0*cm, left=0*cm, width=19.4*cm)
+        self.inclui_descritivo(nome='clc', titulo='TRANSPORTADOR/VOLUMES TRANSPORTADOS', top=0*cm, left=0*cm, width=19.4*cm)
 
         # 1ª linha
-        self.inclui_texto_numerico(nome='trn_bip', titulo=u'NOME/RAZÃO SOCIAL', texto='', top=0.42*cm, left=0*cm, width=9.7*cm)
+        self.inclui_texto_numerico(nome='trn_bip', titulo='NOME/RAZÃO SOCIAL', texto='', top=0.42*cm, left=0*cm, width=9.7*cm)
 
-        self.inclui_texto(nome='trn_placa', titulo=u'FRETE POR CONTA', texto='', top=0.42*cm, left=9.7*cm, width=1.9*cm)
+        self.inclui_texto(nome='trn_placa', titulo='FRETE POR CONTA', texto='', top=0.42*cm, left=9.7*cm, width=1.9*cm)
         txt = self.inclui_texto_sem_borda(nome='', texto='0 - EMITENTE', top=0.62*cm, left=9.7*cm, width=1.9*cm)
         txt.style = DESCRITIVO_CAMPO
 
@@ -271,24 +271,24 @@ class TransportePaisagem(BandaDANFE):
         txt.borders = {'top': True, 'right': True, 'bottom': True, 'left': True}
 
 
-        self.inclui_texto(nome='trn_placa', titulo=u'CÓDIGO ANTT', texto='', top=0.42*cm, left=11.6*cm, width=1.9*cm)
-        self.inclui_texto(nome='trn_placa', titulo=u'PLACA DO VEÍCULO', texto=u'MMM-9999', top=0.42*cm, left=13.5*cm, width=1.9*cm)
-        self.inclui_texto(nome='trn_vei_uf', titulo=u'UF', texto='MM', top=0.42*cm, left=15.4*cm, width=0.8*cm)
-        self.inclui_texto(nome='trn_cnpj', titulo=u'CNPJ/CPF', texto=u'02.544.208/0001-05', top=0.42*cm, left=16.2*cm, width=3.2*cm, margem_direita=True)
+        self.inclui_texto(nome='trn_placa', titulo='CÓDIGO ANTT', texto='', top=0.42*cm, left=11.6*cm, width=1.9*cm)
+        self.inclui_texto(nome='trn_placa', titulo='PLACA DO VEÍCULO', texto='MMM-9999', top=0.42*cm, left=13.5*cm, width=1.9*cm)
+        self.inclui_texto(nome='trn_vei_uf', titulo='UF', texto='MM', top=0.42*cm, left=15.4*cm, width=0.8*cm)
+        self.inclui_texto(nome='trn_cnpj', titulo='CNPJ/CPF', texto='02.544.208/0001-05', top=0.42*cm, left=16.2*cm, width=3.2*cm, margem_direita=True)
 
         # 2ª linha
-        self.inclui_texto_numerico(nome='trn_end', titulo=u'ENDEREÇO', texto='', top=1.12*cm, left=0*cm, width=9.7*cm)
-        self.inclui_texto_numerico(nome='trn_mun', titulo=u'MUNICÍPIO', texto='', top=1.12*cm, left=9.7*cm, width=5.7*cm)
-        self.inclui_texto(nome='trn_uf', titulo=u'UF', texto='MM', top=1.12*cm, left=15.4*cm, width=0.8*cm)
-        self.inclui_texto(nome='trn_ie', titulo=u'INSCRIÇÃO ESTADUAL', texto=u'MM999999999999', top=1.12*cm, left=16.2*cm, width=3.2*cm, margem_direita=True)
+        self.inclui_texto_numerico(nome='trn_end', titulo='ENDEREÇO', texto='', top=1.12*cm, left=0*cm, width=9.7*cm)
+        self.inclui_texto_numerico(nome='trn_mun', titulo='MUNICÍPIO', texto='', top=1.12*cm, left=9.7*cm, width=5.7*cm)
+        self.inclui_texto(nome='trn_uf', titulo='UF', texto='MM', top=1.12*cm, left=15.4*cm, width=0.8*cm)
+        self.inclui_texto(nome='trn_ie', titulo='INSCRIÇÃO ESTADUAL', texto='MM999999999999', top=1.12*cm, left=16.2*cm, width=3.2*cm, margem_direita=True)
 
         # 3ª linha
-        self.inclui_texto_numerico(nome='trn_qtd', titulo=u'QUANTIDADE', texto='9.999.999.999,999999', top=1.82*cm, left=0*cm, width=3.2*cm)
-        self.inclui_texto(nome='trn_esp', titulo=u'ESPÉCIE', texto='', top=1.82*cm, left=3.2*cm, width=3.2*cm)
-        self.inclui_texto(nome='trn_esp', titulo=u'MARCA', texto='', top=1.82*cm, left=6.4*cm, width=3.4*cm)
-        self.inclui_texto(nome='trn_esp', titulo=u'NÚMERO', texto='', top=1.82*cm, left=9.8*cm, width=3.2*cm)
-        self.inclui_texto_numerico(nome='trn_qtd', titulo=u'PESO BRUTO', texto='9.999.999.999,999999', top=1.82*cm, left=13*cm, width=3.2*cm)
-        self.inclui_texto_numerico(nome='trn_qtd', titulo=u'PESO LÍQUIDO', texto='9.999.999.999,999999', top=1.82*cm, left=16.2*cm, width=3.2*cm, margem_direita=True)
+        self.inclui_texto_numerico(nome='trn_qtd', titulo='QUANTIDADE', texto='9.999.999.999,999999', top=1.82*cm, left=0*cm, width=3.2*cm)
+        self.inclui_texto(nome='trn_esp', titulo='ESPÉCIE', texto='', top=1.82*cm, left=3.2*cm, width=3.2*cm)
+        self.inclui_texto(nome='trn_esp', titulo='MARCA', texto='', top=1.82*cm, left=6.4*cm, width=3.4*cm)
+        self.inclui_texto(nome='trn_esp', titulo='NÚMERO', texto='', top=1.82*cm, left=9.8*cm, width=3.2*cm)
+        self.inclui_texto_numerico(nome='trn_qtd', titulo='PESO BRUTO', texto='9.999.999.999,999999', top=1.82*cm, left=13*cm, width=3.2*cm)
+        self.inclui_texto_numerico(nome='trn_qtd', titulo='PESO LÍQUIDO', texto='9.999.999.999,999999', top=1.82*cm, left=16.2*cm, width=3.2*cm, margem_direita=True)
 
         self.height = 2.52*cm
 
@@ -297,7 +297,7 @@ class CabProdutoPaisagem(BandaDANFE):
     def __init__(self):
         super(CabProdutoPaisagem, self).__init__()
         self.elements = []
-        self.inclui_descritivo(nome='cabprod', titulo=u'DADOS DOS PRODUTOS/SERVIÇOS', top=0*cm, left=0*cm, width=19.4*cm)
+        self.inclui_descritivo(nome='cabprod', titulo='DADOS DOS PRODUTOS/SERVIÇOS', top=0*cm, left=0*cm, width=19.4*cm)
 
         txt = self.inclui_texto_sem_borda(nome='obs_homologacao', texto='SEM VALOR FISCAL', top=1*cm, left=0*cm, width=19.4*cm)
         txt.margin_top = 0.1*cm
@@ -362,12 +362,12 @@ class ISSPaisagem(BandaDANFE):
     def __init__(self):
         super(ISSPaisagem, self).__init__()
         self.elements = []
-        self.inclui_descritivo(nome='iss', titulo=u'CÁLCULO DO ISSQN', top=0*cm, left=0*cm, width=19.4*cm)
+        self.inclui_descritivo(nome='iss', titulo='CÁLCULO DO ISSQN', top=0*cm, left=0*cm, width=19.4*cm)
 
-        self.inclui_texto(nome='iss', titulo=u'INSCRIÇÃO MUNICIPAL', texto='', top=0.42*cm, left=0*cm, width=4.85*cm)
-        self.inclui_texto_numerico(nome='iss', titulo=u'VALOR TOTAL DOS SERVIÇOS', texto='9.999.999.999,99', top=0.42*cm, left=4.85*cm, width=4.85*cm)
-        self.inclui_texto_numerico(nome='iss', titulo=u'BASE DE CÁLCULO DO ISSQN', texto='9.999.999.999,99', top=0.42*cm, left=9.7*cm, width=4.85*cm)
-        self.inclui_texto_numerico(nome='iss', titulo=u'VALOR DO ISSQN', texto='9.999.999.999,99', top=0.42*cm, left=14.55*cm, width=4.85*cm)
+        self.inclui_texto(nome='iss', titulo='INSCRIÇÃO MUNICIPAL', texto='', top=0.42*cm, left=0*cm, width=4.85*cm)
+        self.inclui_texto_numerico(nome='iss', titulo='VALOR TOTAL DOS SERVIÇOS', texto='9.999.999.999,99', top=0.42*cm, left=4.85*cm, width=4.85*cm)
+        self.inclui_texto_numerico(nome='iss', titulo='BASE DE CÁLCULO DO ISSQN', texto='9.999.999.999,99', top=0.42*cm, left=9.7*cm, width=4.85*cm)
+        self.inclui_texto_numerico(nome='iss', titulo='VALOR DO ISSQN', texto='9.999.999.999,99', top=0.42*cm, left=14.55*cm, width=4.85*cm)
 
         self.height = 1.12*cm
 
@@ -376,7 +376,7 @@ class DadosAdicionaisPaisagem(BandaDANFE):
     def __init__(self):
         super(DadosAdicionaisPaisagem, self).__init__()
         self.elements = []
-        self.inclui_descritivo(nome='clc', titulo=u'DADOS ADICIONAIS', top=0*cm, left=0*cm, width=19.4*cm)
+        self.inclui_descritivo(nome='clc', titulo='DADOS ADICIONAIS', top=0*cm, left=0*cm, width=19.4*cm)
 
         self.inclui_texto(nome='', titulo='INFORMAÇÕES COMPLEMENTARES', texto='', top=0.42*cm, left=0*cm, width=11.7*cm, height=4*cm)
         self.inclui_texto(nome='', titulo='RESERVADO AO FISCO', texto='', top=0.42*cm, left=11.7*cm, width=7.7*cm, height=4*cm, margem_direita=True)
