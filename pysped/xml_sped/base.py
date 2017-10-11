@@ -57,8 +57,8 @@ NAMESPACE_SIG = 'http://www.w3.org/2000/09/xmldsig#'
 NAMESPACE_NFSE = 'http://localhost:8080/WsNFe2/lote'
 ABERTURA = '<?xml version="1.0" encoding="utf-8"?>'
 
-locale.setlocale(locale.LC_ALL, b'pt_BR.UTF-8')
-locale.setlocale(locale.LC_COLLATE, b'pt_BR.UTF-8')
+locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
+locale.setlocale(locale.LC_COLLATE, 'pt_BR.UTF-8')
 
 
 class NohXML(object):
