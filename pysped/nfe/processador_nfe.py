@@ -200,7 +200,7 @@ class ProcessadorNFe(object):
     def __init__(self):
         self.ambiente = 2
         self.estado = 'SP'
-        self.versao = '3.10'
+        self.versao = '4.00'
         self.modelo = '55'
         self.certificado = Certificado()
         self.caminho = ''
