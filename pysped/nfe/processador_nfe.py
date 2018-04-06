@@ -349,11 +349,14 @@ class ProcessadorNFe(object):
         #
         if self.estado == 'CE' or servico == WS_DFE_DISTRIBUICAO:
             self._soap_envio.soap_action_webservice_e_metodo = True
-
-            if servico == WS_NFE_AUTORIZACAO:
-                self._soap_envio.metodo = 'nfeAutorizacaoLote'
-            elif servico == WS_NFE_CONSULTA_AUTORIZACAO:
-                self._soap_envio.metodo = 'nfeRetAutorizacaoLote'
+            if self.versao == '3.10':
+                if servico == WS_NFE_AUTORIZACAO:
+                    self._soap_envio.metodo = 'nfeAutorizacaoLote'
+                if servico == WS_NFE_CONSULTA_AUTORIZACAO:
+                    self._soap_envio.metodo = 'nfeRetAutorizacaoLote'
+            if self.versao == '4.00':
+                if servico == WS_NFE_RECEPCAO_EVENTO:
+                    self._soap_envio.metodo = 'nfeRecepcaoEventoNF'
 
         self._soap_retorno.webservice = self._soap_envio.webservice
         self._soap_retorno.metodo     = self._soap_envio.metodo
