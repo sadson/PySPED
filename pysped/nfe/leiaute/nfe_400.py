@@ -934,7 +934,7 @@ class Pag(XMLNFe):
     def __init__(self):
         super(Pag, self).__init__()
         self.detPag = []
-        self.vTroco = TagDecimal(nome='vTroco' , codigo='', tamanho=[1, 13, 1], decimais=[0, 2, 2], raiz='//pag')
+        self.vTroco = TagDecimal(nome='vTroco' , codigo='YA09', tamanho=[1, 13, 1], decimais=[0, 2, 2], raiz='//pag')
 
     def get_xml(self):
         #
@@ -946,7 +946,8 @@ class Pag(XMLNFe):
         for d in self.detPag:
             xml += d.xml
 
-        xml += self.vTroco.xml
+        if self.vTroco.valor:
+            xml += self.vTroco.xml
         xml += '</pag>'
         return xml
 
@@ -1348,7 +1349,7 @@ class InfNFe(nfe_310.InfNFe):
             self.transp.xml   = arquivo
             self.cobr.xml     = arquivo
 
-            self.pag = self.le_grupo('//NFe/infNFe/pag', Pag)
+            self.pag.xml = arquivo
 
             self.infAdic.xml  = arquivo
             self.exporta.xml  = arquivo
