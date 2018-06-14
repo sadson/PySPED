@@ -249,9 +249,10 @@ class ICMS(nfe_310.ICMS):
                     xml += self.pICMSST.xml
                     xml += self.vICMSST.xml
 
-                    xml += self.vBCFCPST.xml
-                    xml += self.pFCPST.xml
-                    xml += self.vFCPST.xml
+                    if self.vFCP.valor:
+                        xml += self.vBCFCPST.xml
+                        xml += self.pFCPST.xml
+                        xml += self.vFCPST.xml
 
                 else:
                     xml += self.modBC.xml
@@ -353,8 +354,9 @@ class ICMS(nfe_310.ICMS):
                 xml += self.vICMSST.xml
 
                 xml += self.vBCFCPST.xml
-                xml += self.pFCPST.xml
-                xml += self.vFCPST.xml
+                if self.vFCP.valor:
+                    xml += self.pFCPST.xml
+                    xml += self.vFCPST.xml
 
                 xml += self.vICMSDeson.xml
                 xml += self.motDesICMS.xml
@@ -1043,17 +1045,17 @@ class ICMSTot(nfe_310.ICMSTot):
         xml += self.vBC.xml
         xml += self.vICMS.xml
         xml += self.vICMSDeson.xml
+        if self.vFCPUFDest.valor:
+            xml += self.vFCPUFDest.xml
+        if self.vICMSUFDest.valor:
+            xml += self.vICMSUFDest.xml
+        if self.vICMSUFRemet.valor:
+            xml += self.vICMSUFRemet.xml
         xml += self.vFCP.xml
         xml += self.vBCST.xml
         xml += self.vST.xml
         xml += self.vFCPST.xml
         xml += self.vFCPSTRet.xml
-        if self.vICMSUFDest.valor:
-            xml += self.vICMSUFDest.xml
-        if self.vICMSUFRemet.valor:
-            xml += self.vICMSUFRemet.xml
-        if self.vFCPUFDest.valor:
-            xml += self.vFCPUFDest.xml
         xml += self.vProd.xml
         xml += self.vFrete.xml
         xml += self.vSeg.xml
@@ -1075,9 +1077,9 @@ class ICMSTot(nfe_310.ICMSTot):
             self.vICMS.xml   = arquivo
             self.vICMSDeson.xml = arquivo
             self.vFCPUFDest.xml = arquivo
+            self.vFCP.xml    = arquivo
             self.vICMSUFDest.xml = arquivo
             self.vICMSUFRemet.xml = arquivo
-            self.vFCP.xml    = arquivo
             self.vBCST.xml   = arquivo
             self.vST.xml     = arquivo
             self.vFCPST.xml  = arquivo
