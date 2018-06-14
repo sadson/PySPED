@@ -353,8 +353,8 @@ class ICMS(nfe_310.ICMS):
                 xml += self.pICMSST.xml
                 xml += self.vICMSST.xml
 
-                xml += self.vBCFCPST.xml
                 if self.vFCP.valor:
+                    xml += self.vBCFCPST.xml
                     xml += self.pFCPST.xml
                     xml += self.vFCPST.xml
 
