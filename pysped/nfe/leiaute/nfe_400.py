@@ -338,8 +338,8 @@ class ICMS(nfe_310.ICMS):
 
             elif self.CST.valor == '70':
                 xml += self.modBC.xml
-                xml += self.vBC.xml
                 xml += self.pRedBC.xml
+                xml += self.vBC.xml
                 xml += self.pICMS.xml
                 xml += self.vICMS.xml
                 xml += self.modBCST.xml
@@ -363,8 +363,8 @@ class ICMS(nfe_310.ICMS):
 
             elif self.CST.valor == '90':
                 xml += self.modBC.xml
-                xml += self.vBC.xml
                 xml += self.pRedBC.xml
+                xml += self.vBC.xml
                 xml += self.pICMS.xml
                 xml += self.vICMS.xml
 
