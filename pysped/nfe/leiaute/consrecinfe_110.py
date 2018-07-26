@@ -45,7 +45,7 @@ from pysped.xml_sped import (ABERTURA, NAMESPACE_NFE, Signature, TagCaracter,
                              TagDataHora, TagDecimal, TagInteiro, XMLNFe, TagDataHoraUTC)
 from pysped.nfe.leiaute import ESQUEMA_ATUAL_VERSAO_1 as ESQUEMA_ATUAL
 import os
-from nfe_110 import NFe
+from .nfe_110 import NFe
 
 
 DIRNAME = os.path.dirname(__file__)
@@ -158,13 +158,14 @@ class ProtNFe(XMLNFe):
 
     xml = property(get_xml, set_xml)
 
+    @property
     def protocolo_formatado(self):
         if not self.infProt.nProt.valor:
             return ''
 
         formatado = self.infProt.nProt.valor
         formatado += ' - '
-        formatado += self.infProt.dhRecbto.formato_danfe()
+        formatado += self.infProt.dhRecbto.formato_danfe
         return formatado
 
 

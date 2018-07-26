@@ -41,23 +41,17 @@
 
 from __future__ import division, print_function, unicode_literals
 
-#
-# Tenta evitar a necessidade do xmlsec estar instalado
-#
-try:
-    import xmlsec
-except ImportError:
-    pass
-
-from pysped.xml_sped import XMLNFe, NAMESPACE_SIG, ABERTURA, tira_abertura
-import libxml2
+from io import open
+import sys
 import os
-from datetime import datetime
-from time import mktime
-from OpenSSL import crypto
-from pytz import UTC
 import base64
-from uuid import uuid4
+import signxml
+from OpenSSL import crypto
+from lxml import etree
+from datetime import datetime
+from pytz import UTC
+from pysped.xml_sped import XMLNFe, NAMESPACE_SIG, ABERTURA, tira_abertura
+from pysped.xml_sped.assinatura import Signature
 
 
 DIRNAME = os.path.dirname(__file__)
@@ -77,23 +71,41 @@ class Certificado(object):
         self._numero_serie = None
         self._extensoes = {}
         self._doc_xml    = None
+        self._certificado_preparado = False
 
     def prepara_certificado_arquivo_pfx(self):
+        if self._certificado_preparado:
+            return
+
         # Lendo o arquivo pfx no formato pkcs12 como binário
         if self.stream_certificado is None:
             self.stream_certificado = open(self.arquivo, 'rb').read()
+
         pkcs12 = crypto.load_pkcs12(self.stream_certificado, self.senha)
 
         # Retorna a string decodificada da chave privada
         self.chave = crypto.dump_privatekey(crypto.FILETYPE_PEM, pkcs12.get_privatekey())
 
         # Retorna a string decodificada do certificado
-        self.prepara_certificado_txt(crypto.dump_certificate(crypto.FILETYPE_PEM, pkcs12.get_certificate()))
+        certificado = crypto.dump_certificate(crypto.FILETYPE_PEM, pkcs12.get_certificate())
+
+        if sys.version_info.major == 3:
+            certificado = certificado.decode('utf-8')
+
+        self.prepara_certificado_txt(certificado)
+
+        self._certificado_preparado = True
 
     def prepara_certificado_arquivo_pem(self):
+        if self._certificado_preparado:
+            return
+
         if self.stream_certificado is None:
             self.stream_certificado = open(self.arquivo, 'rb').read()
+
         self.prepara_certificado_txt(self.stream_certificado)
+
+        self._certificado_preparado = True
 
     def prepara_certificado_txt(self, cert_txt):
         #
@@ -113,25 +125,67 @@ class Certificado(object):
 
         cert_openssl = crypto.load_certificate(crypto.FILETYPE_PEM, self.certificado)
         self.cert_openssl = cert_openssl
-
-        self._emissor = dict(cert_openssl.get_issuer().get_components())
-        self._proprietario = dict(cert_openssl.get_subject().get_components())
         self._numero_serie = cert_openssl.get_serial_number()
-        self._data_inicio_validade = datetime.strptime(cert_openssl.get_notBefore(), '%Y%m%d%H%M%SZ')
-        self._data_inicio_validade = UTC.localize(self._data_inicio_validade)
-        self._data_fim_validade    = datetime.strptime(cert_openssl.get_notAfter(), '%Y%m%d%H%M%SZ')
-        self._data_fim_validade    = UTC.localize(self._data_fim_validade)
 
         for i in range(cert_openssl.get_extension_count()):
             extensao = cert_openssl.get_extension(i)
             self._extensoes[extensao.get_short_name()] = extensao.get_data()
+
+        self._emissor = {}
+        for chave, valor in cert_openssl.get_issuer().get_components():
+            chave = chave.decode('utf-8')
+            valor = valor.decode('utf-8')
+            self._emissor[chave] = valor
+
+        self._proprietario = {}
+        for chave, valor in cert_openssl.get_subject().get_components():
+            chave = chave.decode('utf-8')
+            valor = valor.decode('utf-8')
+            self._proprietario[chave] = valor
+
+        if sys.version_info.major == 3:
+            self._data_inicio_validade = \
+                datetime.strptime(cert_openssl.get_notBefore().decode('utf-8'), '%Y%m%d%H%M%SZ')
+            self._data_fim_validade    = \
+                datetime.strptime(cert_openssl.get_notAfter().decode('utf-8'), '%Y%m%d%H%M%SZ')
+
+        else:
+            #self._emissor = dict(cert_openssl.get_issuer().get_components())
+            #self._proprietario = dict(cert_openssl.get_subject().get_components())
+            self._data_inicio_validade = \
+                datetime.strptime(cert_openssl.get_notBefore(), '%Y%m%d%H%M%SZ')
+            self._data_fim_validade    = \
+                datetime.strptime(cert_openssl.get_notAfter(), '%Y%m%d%H%M%SZ')
+
+        self._data_inicio_validade = \
+            UTC.localize(self._data_inicio_validade)
+        self._data_fim_validade    = \
+            UTC.localize(self._data_fim_validade)
+
+    def _set_arquivo(self, arquivo):
+        self._arquivo = arquivo
+        self._certificado_preparado = False
+
+    def _get_arquivo(self):
+        return self._arquivo
+
+    arquivo = property(_get_arquivo, _set_arquivo)
+
+    def _set_senha(self, senha):
+        self._senha = senha
+        self._certificado_preparado = False
+
+    def _get_senha(self):
+        return self._senha
+
+    senha = property(_get_senha, _set_senha)
 
     def _set_chave(self, chave):
         self._chave = chave
 
     def _get_chave(self):
         try:
-            if self._chave: # != ''
+            if self._chave:
                 return self._chave
             else:
                 raise AttributeError("'chave' precisa ser regenerada")
@@ -149,7 +203,7 @@ class Certificado(object):
 
     def _get_certificado(self):
         try:
-            if self._certificado:   # != ''
+            if self._certificado:
                 return self._certificado
             else:
                 raise AttributeError("'certificado' precisa ser regenerado")
@@ -166,7 +220,7 @@ class Certificado(object):
     def proprietario_nome(self):
         if 'CN' in self.proprietario:
             #
-            # Alguns certrificados não têm o CNPJ na propriedade CN, somente o
+            # Alguns certificados não têm o CNPJ na propriedade CN, somente o
             # nome do proprietário
             #
             if ':' in self.proprietario['CN']:
@@ -184,7 +238,7 @@ class Certificado(object):
     def proprietario_cnpj(self):
         if 'CN' in self.proprietario:
             #
-            # Alguns certrificados não têm o CNPJ na propriedade CN, somente o
+            # Alguns certificados não têm o CNPJ na propriedade CN, somente o
             # nome do proprietário
             #
             if ':' in self.proprietario['CN']:
@@ -264,36 +318,9 @@ class Certificado(object):
             except IOError:  # arquivo do certificado não disponível
                 return dict()
 
-    def _inicia_funcoes_externas(self):
-        # Ativa as funções de análise de arquivos XML
-        libxml2.initParser()
-        libxml2.substituteEntitiesDefault(1)
-
-        # Ativa as funções da API de criptografia
-        xmlsec.init()
-        xmlsec.cryptoAppInit(None)
-        xmlsec.cryptoInit()
-
-    def _finaliza_funcoes_externas(self):
-        ''' Desativa as funções criptográficas e de análise XML
-        As funções devem ser chamadas na ordem inversa da ativação
-        '''
-        #xmlsec.cryptoShutdown()
-        #xmlsec.cryptoAppShutdown()
-        xmlsec.shutdown()
-
-        libxml2.cleanupParser()
-
     def assina_xmlnfe(self, doc):
         if not isinstance(doc, XMLNFe):
             raise ValueError('O documento nao e do tipo esperado: XMLNFe')
-
-        if self.stream_certificado:
-            caminho_temporario = '/tmp/'
-            self.arquivo = caminho_temporario + uuid4().hex
-            arq_tmp = open(self.arquivo, 'w')
-            arq_tmp.write(self.stream_certificado)
-            arq_tmp.close()
 
         # Realiza a assinatura
         xml = self.assina_xml(doc.xml)
@@ -302,7 +329,7 @@ class Certificado(object):
         doc.Signature.xml = xml
 
     def assina_arquivo(self, doc):
-        xml = open(doc, 'r').read()
+        xml = open(doc, 'r', encoding='utf-8').read()
         xml = self.assina_xml(xml)
         return xml
 
@@ -354,8 +381,9 @@ class Certificado(object):
         return doctype
 
     def _prepara_doc_xml(self, xml):
-        if isinstance(xml, str):
-            xml = unicode(xml.encode('utf-8'))
+        if sys.version_info.major == 2:
+            if isinstance(xml, str):
+                xml = unicode(xml.encode('utf-8'))
 
         doctype = self._obtem_doctype(xml)
 
@@ -376,92 +404,56 @@ class Certificado(object):
         return xml
 
     def _finaliza_xml(self, xml):
-        if isinstance(xml, str):
-            xml = unicode(xml.decode('utf-8'))
+        if sys.version_info.major == 2:
+            if isinstance(xml, str):
+                xml = unicode(xml.decode('utf-8'))
 
         doctype = self._obtem_doctype(xml)
 
         #
-        # Remove o doctype e os \n acrescentados pela libxml2
+        # Remove o doctype e os \n
         #
         xml = xml.replace('\n', '')
+        xml = xml.replace('\r', '')
         xml = xml.replace(ABERTURA + doctype, ABERTURA)
 
         return xml
 
     def assina_xml(self, xml):
-        self._inicia_funcoes_externas()
         xml = self._prepara_doc_xml(xml)
+
+        assinatura = Signature()
+        assinatura.xml = xml
+
+        #
+        # Tiramos a tag de assinatura, o signxml vai colocar de novo
+        #
+        if '<Signature ' in xml:
+            partes = xml.split('<Signature ')
+            xml_sem_assinatura = ''.join(partes[:-1])
+            partes = partes[-1].split('</Signature>')
+            xml_sem_assinatura += ''.join(partes[-1])
+            xml = xml_sem_assinatura
 
         #
         # Colocamos o texto no avaliador XML
         #
-        doc_xml = libxml2.parseMemory(xml.encode('utf-8'), len(xml.encode('utf-8')))
+        doc_xml = etree.fromstring(xml.encode('utf-8'))
 
-        #
-        # Separa o nó da assinatura
-        #
-        noh_assinatura = xmlsec.findNode(doc_xml.getRootElement(), xmlsec.NodeSignature, xmlsec.DSigNs)
+        assinador = signxml.XMLSigner(
+            method=signxml.methods.enveloped,
+            signature_algorithm='rsa-sha1',
+            digest_algorithm='sha1',
+            c14n_algorithm='http://www.w3.org/TR/2001/REC-xml-c14n-20010315'
+        )
+        assinador.namespaces = {None: assinador.namespaces['ds']}
 
-        #
-        # Cria a variável de chamada (callable) da função de assinatura
-        #
-        assinador = xmlsec.DSigCtx()
-
-        #
-        # Buscamos a chave no arquivo do certificado
-        #
-        chave = xmlsec.cryptoAppKeyLoad(filename=str(self.arquivo), format=xmlsec.KeyDataFormatPkcs12, pwd=str(self.senha), pwdCallback=None, pwdCallbackCtx=None)
-
-        #
-        # Atribui a chave ao assinador
-        #
-        assinador.signKey = chave
-
-        #
-        # Realiza a assinatura
-        #
-        assinador.sign(noh_assinatura)
-
-        #
-        # Guarda o status
-        #
-        status = assinador.status
-
-        #
-        # Libera a memória ocupada pelo assinador manualmente
-        #
-        assinador.destroy()
-
-        if status != xmlsec.DSigStatusSucceeded:
-            #
-            # Libera a memória ocupada pelo documento xml manualmente
-            #
-            doc_xml.freeDoc()
-            self._finaliza_funcoes_externas()
-            raise RuntimeError('Erro ao realizar a assinatura do arquivo; status: "' + str(status) + '"')
-
-        #
-        # Elimina do xml assinado a cadeia certificadora, deixando somente
-        # o certificado que assinou o documento
-        #
-        xpath = doc_xml.xpathNewContext()
-        xpath.xpathRegisterNs('sig', NAMESPACE_SIG)
-        certificados = xpath.xpathEval('//sig:X509Data/sig:X509Certificate')
-        for i in range(len(certificados)-1):
-            certificados[i].unlinkNode()
-            certificados[i].freeNode()
+        doc_xml = assinador.sign(doc_xml, key=self.chave, cert=self.certificado, reference_uri=assinatura.URI)
 
         #
         # Retransforma o documento xml em texto
         #
-        xml = doc_xml.serialize()
-
-        #
-        # Libera a memória ocupada pelo documento xml manualmente
-        #
-        doc_xml.freeDoc()
-        self._finaliza_funcoes_externas()
+        xml = etree.tounicode(doc_xml)
 
         xml = self._finaliza_xml(xml)
 
@@ -474,102 +466,49 @@ class Certificado(object):
         return self.verifica_assinatura_xml(doc.xml)
 
     def verifica_assinatura_arquivo(self, doc):
-        xml = open(doc, 'r').read()
+        xml = open(doc, 'r').read().decode('utf-8')
         return self.verifica_assinatura_xml(xml)
 
     def verifica_assinatura_xml(self, xml):
-        self._inicia_funcoes_externas()
         xml = self._prepara_doc_xml(xml)
 
         #
         # Colocamos o texto no avaliador XML
         #
-        doc_xml = libxml2.parseMemory(xml.encode('utf-8'), len(xml.encode('utf-8')))
+        doc_xml = etree.fromstring(xml.encode('utf-8'))
 
         #
-        # Separa o nó da assinatura
+        # A validação deve ser feita somente pela tag assinada, assim, se a
+        # tag assinada estiver dentro de outras, precisamos tirar ela de lá
+        # pra poder valira corretamente a assinatura
         #
-        noh_assinatura = xmlsec.findNode(doc_xml.getRootElement(), xmlsec.NodeSignature, xmlsec.DSigNs)
+        assinatura = doc_xml.xpath('//sig:Signature', namespaces={'sig': 'http://www.w3.org/2000/09/xmldsig#'})
+        doc_xml = assinatura[0].getparent()
+
+        verificador = signxml.XMLVerifier()
 
         #
-        # Prepara o gerenciador dos certificados confiáveis para verificação
+        # Separa o certificado da assinatura
         #
-        certificados_confiaveis = xmlsec.KeysMngr()
-        xmlsec.cryptoAppDefaultKeysMngrInit(certificados_confiaveis)
+        noh_certificado = verificador._findall(doc_xml, 'X509Certificate', anywhere=True)
+
+        if not noh_certificado:
+            raise ValueError(u'XML sem nó X509Certificate!')
+
+        noh_certificado = noh_certificado[0]
+
+        self.prepara_certificado_txt(noh_certificado.text)
 
         #
-        # Prepara a cadeia certificadora
+        # Vai levantar exceção caso a assinatura seja inválida
         #
-        certificados = os.listdir(DIRNAME + '/cadeia-certificadora/certificados')
-        certificados.sort()
-        for certificado in certificados:
-            certificados_confiaveis.certLoad(filename=str(DIRNAME + '/cadeia-certificadora/certificados/' + certificado), format=xmlsec.KeyDataFormatPem, type=xmlsec.KeyDataTypeTrusted)
+        verificador.verify(
+            doc_xml,
+            ca_pem_file=os.path.join(DIRNAME,'cadeia.pem'),
+            x509_cert=self.cert_openssl,
+        )
 
-        #
-        # Cria a variável de chamada (callable) da função de assinatura/verificação,
-        # agora passando quais autoridades certificadoras são consideradas
-        # confiáveis
-        #
-        verificador = xmlsec.DSigCtx(certificados_confiaveis)
-
-        #
-        # Separa o certificado que assinou o arquivo, e prepara a instância
-        # com os dados desse certificado
-        #
-        certificado = xmlsec.findNode(noh_assinatura, xmlsec.NodeX509Certificate, xmlsec.DSigNs).content
-        self.prepara_certificado_txt(certificado)
-
-        #
-        # Recupera a chave do certificado que assinou o documento, e altera
-        # a data que será usada para fazer a verificação, para que a assinatura
-        # seja validada mesmo que o certificado já tenha expirado
-        # Para isso, define a data de validação para a data de início da validade
-        # do certificado
-        # Essa data deve ser informada como um inteiro tipo "unixtime"
-        #
-        noh_chave = xmlsec.findNode(noh_assinatura, xmlsec.NodeKeyInfo, xmlsec.DSigNs)
-        manipulador_chave = xmlsec.KeyInfoCtx(mngr=certificados_confiaveis)
-        manipulador_chave.certsVerificationTime = mktime(self.data_inicio_validade.timetuple())
-
-        #
-        # Cria uma chave vazia e recupera a chave, dizendo ao verificador que
-        # é essa a chave que deve ser usada na validação da assinatura
-        #
-        verificador.signKey = xmlsec.Key()
-        xmlsec.keyInfoNodeRead(noh_chave, verificador.signKey, manipulador_chave)
-
-        #
-        # Realiza a verificação
-        #
-        verificador.verify(noh_assinatura)
-
-        #
-        # Guarda o status
-        #
-        status = verificador.status
-        resultado = status == xmlsec.DSigStatusSucceeded
-
-        #
-        # Libera a memória ocupada pelo verificador manualmente
-        #
-        verificador.destroy()
-        certificados_confiaveis.destroy()
-
-        if status != xmlsec.DSigStatusSucceeded:
-            #
-            # Libera a memória ocupada pelo documento xml manualmente
-            #
-            doc_xml.freeDoc()
-            self._finaliza_funcoes_externas()
-            raise RuntimeError('Erro ao validar a assinatura do arquivo; status: "' + str(status) + '"')
-
-        #
-        # Libera a memória ocupada pelo documento xml manualmente
-        #
-        doc_xml.freeDoc()
-        self._finaliza_funcoes_externas()
-
-        return resultado
+        return True
 
     def assina_texto(self, texto):
         #

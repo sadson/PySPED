@@ -1,14 +1,16 @@
 from setuptools import setup
 
+test_requirements = ['pyflakes>=0.6.1']
+
 setup(
     name = "PySPED",
-    version = "0.1.2",
+    version = "1.2.0",
     author = "Aristides Caldeira",
     author_email = 'aristides.caldeira@tauga.com.br',
     test_suite='tests',
     keywords = ['nfe', 'nfse', 'cte', 'sped', 'edf', 'ecd'],
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
         'Environment :: Plugins',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: GNU Lesser General Public License v2 or later (LGPLv2+)',
@@ -27,7 +29,7 @@ setup(
         'pysped.cte.leiaute',
         'pysped.cte.dacte',
         'pysped.efd',
-#        'pysped.nfse',
+        # 'pysped.nfse',
         'pysped.xml_sped',
         'pysped.ecd',
         'pysped.nf_paulista',
@@ -35,7 +37,7 @@ setup(
         'pysped.exemplos',
     ],
     package_data = {
-        'pysped.nfe.danfe': ['fonts/*'],
+        'pysped.nfe.danfe': ['fonts/*', '*.odt'],
         'pysped.relato_sped': ['fonts/*'],
         'pysped.nfe.leiaute': ['schema/*/*'],
         'pysped.cte.leiaute': ['schema/*/*'],
@@ -43,13 +45,15 @@ setup(
     },
     url = 'https://github.com/aricaldeira/PySPED',
     license = 'LGPL-v2.1+',
-    description = 'PySPED is a library to implement all requirements of the public system of bookkeeping digital',
+    description = 'PySPED is a library to implement all requirements of the Brazilian Public System of Digital Bookkeeping',
     long_description = open('README.rst').read(),
-    install_requires=[
-        'Geraldo >= 0.4.16',
-        'PyXMLSec >= 0.3.0'
+    requires=[
+        'lxml(>=3.7.3)',
+        'xmlsec(>=1.0.7)',
+        'Geraldo(>=0.4.16)',
+        'qrcode(>=5.3)',
+        'py3o.template(>=0.9.11)',
+        'sh(>=1.12.9)'
     ],
-    tests_require=[
-        'pyflakes>=0.6.1',
-    ],
+    tests_require=test_requirements,
 )
