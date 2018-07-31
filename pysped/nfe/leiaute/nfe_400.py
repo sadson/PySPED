@@ -176,6 +176,52 @@ class TagCSTICMS(nfe_310.TagCSTICMS):
     def __init__(self, *args, **kwargs):
         super(TagCSTICMS, self).__init__(*args, **kwargs)
 
+    def set_valor(self, novo_valor):
+        super(TagCSTICMS, self).set_valor(novo_valor)
+        if not self.grupo_icms:
+            return None
+         #
+        # Definimos todas as tags como não obrigatórias
+        #
+        self.grupo_icms.pST.obrigatorio         = False
+        self.grupo_icms.vBCFCP.obrigatorio      = False
+        self.grupo_icms.pFCP.obrigatorio        = False
+        self.grupo_icms.vFCP.obrigatorio        = False
+        self.grupo_icms.vBCFCPST.obrigatorio    = False
+        self.grupo_icms.pFCPST.obrigatorio      = False
+        self.grupo_icms.vFCPST.obrigatorio      = False
+        self.grupo_icms.vBCFCPSTRet.obrigatorio = False
+        self.grupo_icms.pFCPSTRet.obrigatorio   = False
+        self.grupo_icms.vFCPSTRet.obrigatorio   = False
+         #
+        # Por segurança, zeramos os valores das tags do
+        # grupo ICMS ao redefinirmos o código da situação
+        # tributária
+        #
+        self.grupo_icms.pST.valor         = '0.00'
+        self.grupo_icms.vBCFCP.valor      = '0.00'
+        self.grupo_icms.pFCP.valor        = '0.00'
+        self.grupo_icms.vFCP.valor        = '0.00'
+        self.grupo_icms.vBCFCPST.valor    = '0.00'
+        self.grupo_icms.pFCPST.valor      = '0.00'
+        self.grupo_icms.vFCPST.valor      = '0.00'
+        self.grupo_icms.vBCFCPSTRet.valor = '0.00'
+        self.grupo_icms.pFCPSTRet.valor   = '0.00'
+        self.grupo_icms.vFCPSTRet.valor   = '0.00'
+         #
+        # Redefine a raiz para todas as tags do grupo ICMS
+        #
+        self.grupo_icms.pST.raiz         = self.grupo_icms.raiz_tag
+        self.grupo_icms.vBCFCP.raiz      = self.grupo_icms.raiz_tag
+        self.grupo_icms.pFCP.raiz        = self.grupo_icms.raiz_tag
+        self.grupo_icms.vFCP.raiz        = self.grupo_icms.raiz_tag
+        self.grupo_icms.vBCFCPST.raiz    = self.grupo_icms.raiz_tag
+        self.grupo_icms.pFCPST.raiz      = self.grupo_icms.raiz_tag
+        self.grupo_icms.vFCPST.raiz      = self.grupo_icms.raiz_tag
+        self.grupo_icms.vBCFCPSTRet.raiz = self.grupo_icms.raiz_tag
+        self.grupo_icms.pFCPSTRet.raiz   = self.grupo_icms.raiz_tag
+        self.grupo_icms.vFCPSTRet.raiz   = self.grupo_icms.raiz_tag
+
 
 class ICMS(nfe_310.ICMS):
     def __init__(self):
