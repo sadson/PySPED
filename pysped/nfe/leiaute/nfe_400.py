@@ -300,9 +300,10 @@ class ICMS(nfe_310.ICMS):
                 xml += self.pICMSST.xml
                 xml += self.vICMSST.xml
 
-                xml += self.vBCFCPST.xml
-                xml += self.pFCPST.xml
-                xml += self.vFCPST.xml
+                if self.vFCPST.valor:
+                    xml += self.vBCFCPST.xml
+                    xml += self.pFCPST.xml
+                    xml += self.vFCPST.xml
 
                 xml += self.vICMSDeson.xml
                 xml += self.motDesICMS.xml
@@ -384,9 +385,10 @@ class ICMS(nfe_310.ICMS):
                 xml += self.pICMSST.xml
                 xml += self.vICMSST.xml
 
-                xml += self.vBCFCPST.xml
-                xml += self.pFCPST.xml
-                xml += self.vFCPST.xml
+                if self.vFCPST.valor:
+                    xml += self.vBCFCPST.xml
+                    xml += self.pFCPST.xml
+                    xml += self.vFCPST.xml
 
                 xml += self.vICMSDeson.xml
                 xml += self.motDesICMS.xml
@@ -420,9 +422,10 @@ class ICMS(nfe_310.ICMS):
                 xml += self.pICMSST.xml
                 xml += self.vICMSST.xml
 
-                xml += self.vBCFCPST.xml
-                xml += self.pFCPST.xml
-                xml += self.vFCPST.xml
+                if self.vFCPST.valor:
+                    xml += self.vBCFCPST.xml
+                    xml += self.pFCPST.xml
+                    xml += self.vFCPST.xml
 
                 xml += self.pCredSN.xml
                 xml += self.vCredICMSSN.xml
@@ -439,9 +442,10 @@ class ICMS(nfe_310.ICMS):
                 xml += self.pICMSST.xml
                 xml += self.vICMSST.xml
 
-                xml += self.vBCFCPST.xml
-                xml += self.pFCPST.xml
-                xml += self.vFCPST.xml
+                if self.vFCPST.valor:
+                    xml += self.vBCFCPST.xml
+                    xml += self.pFCPST.xml
+                    xml += self.vFCPST.xml
 
             elif self.CSOSN.valor == '500':
                 xml += self.vBCSTRet.xml
@@ -469,9 +473,10 @@ class ICMS(nfe_310.ICMS):
                 xml += self.pICMSST.xml
                 xml += self.vICMSST.xml
 
-                xml += self.vBCFCPST.xml
-                xml += self.pFCPST.xml
-                xml += self.vFCPST.xml
+                if self.vFCPST.valor:
+                    xml += self.vBCFCPST.xml
+                    xml += self.pFCPST.xml
+                    xml += self.vFCPST.xml
 
                 xml += self.pCredSN.xml
                 xml += self.vCredICMSSN.xml
