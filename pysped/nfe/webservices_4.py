@@ -393,24 +393,24 @@ UFMG = {
 
 UFPR = {
     NFE_AMBIENTE_PRODUCAO: {
-        'servidor'              : 'nfe.fazenda.pr.gov.br',
-        WS_NFE_INUTILIZACAO     : 'nfe/NFeInutilizacao4',
-        WS_NFE_CONSULTA         : 'nfe/NFeConsultaProtocolo4',
-        WS_NFE_SITUACAO         : 'nfe/NFeStatusServico4',
-        WS_NFE_CONSULTA_CADASTRO: 'nfe/CadConsultaCadastro4',
-        WS_NFE_RECEPCAO_EVENTO  : 'nfe/NFeRecepcaoEvento4',
-        WS_NFE_AUTORIZACAO      : 'nfe/NFeAutorizacao4',
-        WS_NFE_CONSULTA_AUTORIZACAO  : 'nfe/NFeRetAutorizacao4',
+        'servidor'              : 'nfe.sefa.pr.gov.br',
+        WS_NFE_INUTILIZACAO     : 'nfe/NFeInutilizacao4?wsdl',
+        WS_NFE_CONSULTA         : 'nfe/NFeConsultaProtocolo4?wsdl',
+        WS_NFE_SITUACAO         : 'nfe/NFeStatusServico4?wsdl',
+        WS_NFE_CONSULTA_CADASTRO: 'nfe/CadConsultaCadastro4?wsdl',
+        WS_NFE_RECEPCAO_EVENTO  : 'nfe/NFeRecepcaoEvento4?wsdl',
+        WS_NFE_AUTORIZACAO      : 'nfe/NFeAutorizacao4?wsdl',
+        WS_NFE_CONSULTA_AUTORIZACAO  : 'nfe/NFeRetAutorizacao4?wsdl',
     },
     NFE_AMBIENTE_HOMOLOGACAO: {
-        'servidor'              : 'homologacao.nfe.fazenda.pr.gov.br',
-        WS_NFE_INUTILIZACAO     : 'nfe/NFeInutilizacao4',
-        WS_NFE_CONSULTA         : 'nfe/NFeConsultaProtocolo4',
-        WS_NFE_SITUACAO         : 'nfe/NFeStatusServico4',
-        WS_NFE_CONSULTA_CADASTRO: 'nfe/CadConsultaCadastro4',
-        WS_NFE_RECEPCAO_EVENTO  : 'nfe/NFeRecepcaoEvento4',
-        WS_NFE_AUTORIZACAO      : 'nfe/NFeAutorizacao4',
-        WS_NFE_CONSULTA_AUTORIZACAO  : 'nfe/NFeRetAutorizacao4',
+        'servidor'              : 'homologacao.nfe.sefa.pr.gov.br',
+        WS_NFE_INUTILIZACAO     : 'nfe/NFeInutilizacao4?wsdl',
+        WS_NFE_CONSULTA         : 'nfe/NFeConsultaProtocolo4?wsdl',
+        WS_NFE_SITUACAO         : 'nfe/NFeStatusServico4?wsdl',
+        WS_NFE_CONSULTA_CADASTRO: 'nfe/CadConsultaCadastro4?wsdl',
+        WS_NFE_RECEPCAO_EVENTO  : 'nfe/NFeRecepcaoEvento4?wsdl',
+        WS_NFE_AUTORIZACAO      : 'nfe/NFeAutorizacao4?wsdl',
+        WS_NFE_CONSULTA_AUTORIZACAO  : 'nfe/NFeRetAutorizacao4?wsdl',
     }
 }
 
