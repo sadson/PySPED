@@ -385,23 +385,23 @@ UFPR = {
 UFPE = {
     NFE_AMBIENTE_PRODUCAO: {
         'servidor'              : 'nfe.sefaz.pe.gov.br',
-        WS_NFE_INUTILIZACAO     : 'nfe-service/services/NfeInutilizacao2',
-        WS_NFE_CONSULTA         : 'nfe-service/services/NfeConsulta2',
-        WS_NFE_SITUACAO         : 'nfe-service/services/NfeStatusServico2',
+        WS_NFE_INUTILIZACAO     : 'nfe-service/services/NfeInutilizacao4',
+        WS_NFE_CONSULTA         : 'nfe-service/services/NFeConsultaProtocolo4',
+        WS_NFE_SITUACAO         : 'nfe-service/services/NFeStatusServico4',
         WS_NFE_CONSULTA_CADASTRO: 'nfe-service/services/CadConsultaCadastro2',
-        WS_NFE_RECEPCAO_EVENTO  : 'nfe-service/services/RecepcaoEvento',
-        WS_NFE_AUTORIZACAO       : 'nfe-service/services/NfeAutorizacao',
-        WS_NFE_CONSULTA_AUTORIZACAO  : 'nfe-service/services/NfeRetAutorizacao',
+        WS_NFE_RECEPCAO_EVENTO  : 'nfe-service/services/NFeRecepcaoEvento4',
+        WS_NFE_AUTORIZACAO       : 'nfe-service/services/NFeAutorizacao4',
+        WS_NFE_CONSULTA_AUTORIZACAO  : 'nfe-service/services/NFeRetAutorizacao4',
     },
     NFE_AMBIENTE_HOMOLOGACAO: {
         'servidor'             : 'nfehomolog.sefaz.pe.gov.br',
-        WS_NFE_INUTILIZACAO     : 'nfe-service/services/NfeInutilizacao2',
-        WS_NFE_CONSULTA         : 'nfe-service/services/NfeConsulta2',
-        WS_NFE_SITUACAO         : 'nfe-service/services/NfeStatusServico2',
+        WS_NFE_INUTILIZACAO     : 'nfe-service/services/NfeInutilizacao4',
+        WS_NFE_CONSULTA         : 'nfe-service/services/NFeConsultaProtocolo4',
+        WS_NFE_SITUACAO         : 'nfe-service/services/NFeStatusServico4',
         WS_NFE_CONSULTA_CADASTRO: 'nfe-service/services/CadConsultaCadastro2',
-        WS_NFE_RECEPCAO_EVENTO  : 'nfe-service/services/RecepcaoEvento',
-        WS_NFE_AUTORIZACAO       : 'nfe-service/services/NfeAutorizacao',
-        WS_NFE_CONSULTA_AUTORIZACAO  : 'nfe-service/services/NfeRetAutorizacao',
+        WS_NFE_RECEPCAO_EVENTO  : 'nfe-service/services/NFeRecepcaoEvento4',
+        WS_NFE_AUTORIZACAO       : 'nfe-service/services/NFeAutorizacao4',
+        WS_NFE_CONSULTA_AUTORIZACAO  : 'nfe-service/services/NFeRetAutorizacao4',
     }
 }
 
