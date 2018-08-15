@@ -1042,17 +1042,17 @@ class ICMSTot(nfe_310.ICMSTot):
         xml += self.vBC.xml
         xml += self.vICMS.xml
         xml += self.vICMSDeson.xml
+        if self.vICMSUFDest.valor:
+            xml += self.vICMSUFDest.xml
+        if self.vFCPUFDest.valor:
+            xml += self.vFCPUFDest.xml
+        if self.vICMSUFRemet.valor:
+            xml += self.vICMSUFRemet.xml
         xml += self.vFCP.xml
         xml += self.vBCST.xml
         xml += self.vST.xml
         xml += self.vFCPST.xml
         xml += self.vFCPSTRet.xml
-        if self.vICMSUFDest.valor:
-            xml += self.vICMSUFDest.xml
-        if self.vICMSUFRemet.valor:
-            xml += self.vICMSUFRemet.xml
-        if self.vFCPUFDest.valor:
-            xml += self.vFCPUFDest.xml
         xml += self.vProd.xml
         xml += self.vFrete.xml
         xml += self.vSeg.xml
