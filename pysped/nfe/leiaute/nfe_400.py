@@ -660,6 +660,7 @@ class Adi(nfe_310.Adi):
 class DI(nfe_310.DI):
     def __init__(self):
         super(DI, self).__init__()
+        self.nDI         = TagCaracter(nome='nDI'        , codigo='I19', tamanho=[1, 20], raiz='//DI')
 
 
 class Rastro(XMLNFe):
