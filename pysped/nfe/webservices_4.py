@@ -59,7 +59,7 @@ METODO_WS = {
     },
     WS_NFE_CONSULTA_CADASTRO: {
         'webservice': 'CadConsultaCadastro4',
-        'metodo'    : 'consultaCadastro2',
+        'metodo'    : 'consultaCadastro',
     },
     WS_NFE_RECEPCAO_EVENTO: {
         'webservice': 'NFeRecepcaoEvento4',
@@ -67,11 +67,11 @@ METODO_WS = {
     },
     WS_NFE_AUTORIZACAO: {
         'webservice': 'NFeAutorizacao4',
-        'metodo'    : 'NfeAutorizacao',
+        'metodo'    : 'nfeAutorizacaoLote',
     },
     WS_NFE_CONSULTA_AUTORIZACAO: {
         'webservice': 'NFeRetAutorizacao4',
-        'metodo'    : 'NfeRetAutorizacao',
+        'metodo'    : 'nfeRetAutorizacaoLote',
     },
     WS_DFE_DISTRIBUICAO: {
         'webservice': 'NFeDistribuicaoDFe',
