@@ -4421,19 +4421,16 @@ class NFe(XMLNFe):
     @property
     def frete_formatado(self):
         if self.infNFe.transp.modFrete.valor == 0:
-            formatado = '0-do Remetente CIF'
+            formatado = '0-Emitente'
 
         elif self.infNFe.transp.modFrete.valor == 1:
-            formatado = '1-do Destinatario FOB'
+            if self.infNFe.ide.tpNF.valor == 0:
+                formatado = '1-do Remetente'
+            else:
+                formatado = '1-do Destinatário'
 
         elif self.infNFe.transp.modFrete.valor == 2:
             formatado = '2-de Terceiros'
-
-        elif self.infNFe.transp.modFrete.valor == 3:
-            formatado = '3-do Remetente'
-
-        elif self.infNFe.transp.modFrete.valor == 4:
-            formatado = '4-do Destinatario'
 
         elif self.infNFe.transp.modFrete.valor == 9:
             formatado = '9-sem frete'
