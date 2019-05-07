@@ -287,6 +287,10 @@ class ICMS(nfe_310.ICMS):
         self.vBCFCPSTRet = TagDecimal(nome='vBCFCPSTRet', codigo='', tamanho=[1, 13, 1], decimais=[0, 2, 2], raiz='', obrigatorio=False)
         self.pFCPSTRet = TagDecimal(nome='pFCPSTRet'    , codigo='', tamanho=[1,  3, 1], decimais=[0, 2, 4], raiz='', obrigatorio=False)
         self.vFCPSTRet = TagDecimal(nome='vFCPSTRet'    , codigo='', tamanho=[1, 13, 1], decimais=[0, 2, 2], raiz='', obrigatorio=False)
+        self.pRedBCEfet = TagDecimal(nome='pRedBCEfet'    , codigo='', tamanho=[1, 13, 1], decimais=[0, 2, 2], raiz='', obrigatorio=True)
+        self.vBCEfet = TagDecimal(nome='vBCEfet'    , codigo='', tamanho=[1, 13, 1], decimais=[0, 2, 2], raiz='', obrigatorio=True)
+        self.pICMSEfet = TagDecimal(nome='pICMSEfet'    , codigo='', tamanho=[1, 13, 1], decimais=[0, 2, 2], raiz='', obrigatorio=True)
+        self.vICMSEfet = TagDecimal(nome='vICMSEfet'    , codigo='', tamanho=[1, 13, 1], decimais=[0, 2, 2], raiz='', obrigatorio=True)
         self.orig = TagCaracter(nome='orig', codigo='', raiz='')
 
         #
@@ -424,6 +428,10 @@ class ICMS(nfe_310.ICMS):
                     xml += self.vFCP.xml
 
             elif self.CST.valor == '60':
+                xml += self.pRedBCEfet.xml
+                xml += self.vBCEfet.xml
+                xml += self.pICMSEfet.xml
+                xml += self.vICMSEfet.xml
                 if (self.vBCSTRet.valor or self.pST.valor or self.vICMSSTRet.valor):
                     xml += self.vBCSTRet.xml
                     xml += self.pST.xml
@@ -433,6 +441,7 @@ class ICMS(nfe_310.ICMS):
                     xml += self.vBCFCPSTRet.xml
                     xml += self.pFCPSTRet.xml
                     xml += self.vFCPSTRet.xml
+
 
             elif self.CST.valor == '70':
                 xml += self.modBC.xml
@@ -683,6 +692,10 @@ class ICMS(nfe_310.ICMS):
             self.vICMSOp.xml    = arquivo
             self.pDif.xml       = arquivo
             self.vICMSDif.xml   = arquivo
+            self.pRedBCEfet.xml = arquivo
+            self.vBCEfet.xml    = arquivo
+            self.pICMSEfet.xml  = arquivo
+            self.vICMSEfet.xml  = arquivo
 
             if self.regime_tributario == 1:
                 self.pCredSN.xml     = arquivo
@@ -1143,6 +1156,7 @@ class ICMSTot(nfe_310.ICMSTot):
         self.vICMSUFDest = TagDecimal(nome='vICMSUFDest', codigo='', tamanho=[1, 13, 1], decimais=[0, 2, 2], raiz='//NFe/infNFe/total/ICMSTot', obrigatorio=True)
         self.vFCPUFDest = TagDecimal(nome='vFCPUFDest', codigo='', tamanho=[1, 13, 1], decimais=[0, 2, 2], raiz='//NFe/infNFe/total/ICMSTot', obrigatorio=True)
         self.vICMSUFRemet = TagDecimal(nome='vICMSUFRemet', codigo='', tamanho=[1, 13, 1], decimais=[0, 2, 2], raiz='//NFe/infNFe/total/ICMSTot', obrigatorio=True)
+
 
     def get_xml(self):
         xml = XMLNFe.get_xml(self)
