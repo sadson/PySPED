@@ -1258,11 +1258,13 @@ class Avulsa(nfe_310.Avulsa):
 class EnderEmit(nfe_310.EnderEmit):
     def __init__(self):
         super(EnderEmit, self).__init__()
+        self.fone = TagCaracter(nome='fone', codigo='C16', tamanho=[6, 14], raiz='//NFe/infNFe/emit/enderEmit', obrigatorio=False)
 
 
 class Emit(nfe_310.Emit):
     def __init__(self):
         super(Emit, self).__init__()
+        self.enderEmit = EnderEmit()
 
 
 class RefECF(nfe_310.RefECF):
